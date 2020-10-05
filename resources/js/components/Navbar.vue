@@ -1,5 +1,5 @@
 <template>
-    <b-navbar>
+    <b-navbar :class="{'hidden': hidden}">
         <template slot="brand">
             <b-navbar-item tag="router-link" :to="{ path: '/' }" class="is-monoton is-size-3 has-text-danger">
                 Los Cops
@@ -28,10 +28,23 @@
 
 <script>
 export default {
-name: "Navbar"
+    name: "Navbar",
+    props: {
+        hidden: {
+            default: false,
+            type: Boolean,
+        }
+    }
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+.hidden {
+    position: absolute;
+    width: 100%;
+    opacity: 0;
+    &:hover {
+        opacity: 1;
+    }
+}
 </style>

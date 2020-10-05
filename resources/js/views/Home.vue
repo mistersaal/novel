@@ -19,7 +19,7 @@
                     <div class="column">
                         <div class="box">
                             <h3 class="title is-5">Los Cops</h3>
-                            <b-button size="is-medium" expanded type="is-danger">Играть</b-button>
+                            <b-button size="is-medium" expanded type="is-danger" @click="toLosCops">Играть</b-button>
                         </div>
                     </div>
                     <div class="column">
@@ -53,7 +53,9 @@
             }
         },
         methods: {
-
+            toLosCops() {
+                this.$router.push('/games/1')
+            }
         },
         computed: {
 
