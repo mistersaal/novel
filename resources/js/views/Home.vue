@@ -54,7 +54,7 @@
         },
         methods: {
             toLosCops() {
-                this.$router.push('/games/1')
+                this.$router.push('/novels/1')
             }
         },
         computed: {
