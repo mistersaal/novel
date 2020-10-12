@@ -19,6 +19,7 @@ class NovelResource extends JsonResource
             'author' => new AuthorResource($this->whenLoaded('author')),
             'name' => $this->name,
             'description' => $this->description,
+            'first_scene_id' => $this->first_scene_id,
             'cover' => new ImageResource($this->whenLoaded('cover')),
         ];
     }
