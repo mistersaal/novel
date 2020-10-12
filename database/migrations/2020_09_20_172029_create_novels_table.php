@@ -17,7 +17,7 @@ class CreateNovelsTable extends Migration
             $table->id();
             $table->foreignIdFor(\App\Models\User::class, 'author_id')->constrained('users');
             $table->string('name');
-            $table->string('cover')->nullable();
+            $table->foreignIdFor(\App\Models\Image::class)->nullable()->constrained('images');
             $table->text('description')->nullable();
             $table->foreignIdFor(\App\Models\Scene::class, 'first_scene_id')->nullable()->constrained('scenes');
             $table->timestamps();

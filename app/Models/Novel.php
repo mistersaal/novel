@@ -19,6 +19,11 @@ class Novel extends Model
         return $this->belongsTo(Scene::class, 'first_scene_id');
     }
 
+    public function cover()
+    {
+        return $this->belongsTo(Image::class, 'image_id');
+    }
+
     public function images()
     {
         return $this->hasMany(Image::class);
