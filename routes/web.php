@@ -19,6 +19,12 @@ Route::view('/', 'welcome');
 
 Auth::routes();
 
-Route::get('/novels/{novel}', [NovelController::class, 'index'])->name('game');
-Route::get('/novels/{novel}/scene', [NovelController::class, 'currentScene'])
-    ->name('currentScene');
+Route::prefix('/novels/{novel}')->group(function () {
+
+    Route::get('/', [NovelController::class, 'index'])->name('game');
+    Route::get('/scene', [NovelController::class, 'currentScene'])
+        ->name('currentScene');
+    Route::post('/scene/previous', [NovelController::class, 'toPreviousScene'])
+        ->name('toPreviousScene');
+
+});
