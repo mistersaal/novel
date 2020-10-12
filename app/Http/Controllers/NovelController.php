@@ -21,6 +21,6 @@ class NovelController extends Controller
         /** @var User $user пока заглушка без аутентификации */
         $user = User::first();
         $save = $savingService->getSave($user, $novel);
-        return new SceneResource($save->scene->load(['image', 'music', 'choices']));
+        return new SceneResource($save->scene);
     }
 }

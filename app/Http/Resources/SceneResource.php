@@ -17,9 +17,9 @@ class SceneResource extends JsonResource
         return [
             'id' => $this->id,
             'text' => $this->text,
-            'image' => new ImageResource($this->whenLoaded('image')),
-            'music' => new MusicResource($this->whenLoaded('music')),
-            'choices' => ChoiceResource::collection($this->whenLoaded('choices')),
+            'image' => new ImageResource($this->image),
+            'music' => new MusicResource($this->music),
+            'choices' => ChoiceResource::collection($this->choices),
         ];
     }
 
