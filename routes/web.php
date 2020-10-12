@@ -20,3 +20,5 @@ Route::view('/', 'welcome');
 Auth::routes();
 
 Route::get('/novels/{novel}', [NovelController::class, 'index'])->name('game');
+Route::get('/novels/{novel}/scene', [NovelController::class, 'currentScene'])
+    ->name('currentScene');
