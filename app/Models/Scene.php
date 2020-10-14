@@ -28,4 +28,14 @@ class Scene extends Model
     {
         return $this->hasMany(Choice::class);
     }
+
+    public function novel()
+    {
+        return $this->belongsTo(Novel::class);
+    }
+
+    public function isLastScene()
+    {
+        return !$this->next_scene_id && $this->choices->isEmpty();
+    }
 }

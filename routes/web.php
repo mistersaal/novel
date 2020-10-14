@@ -26,5 +26,7 @@ Route::prefix('/novels/{novel}')->group(function () {
         ->name('currentScene');
     Route::post('/scene/previous', [NovelController::class, 'toPreviousScene'])
         ->name('toPreviousScene');
+    Route::post('/scene/next', [NovelController::class, 'toNextScene'])
+        ->name('toNextScene');
 
 });

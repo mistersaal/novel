@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\NextSceneRequest;
 use App\Http\Resources\NovelResource;
 use App\Http\Resources\SceneResource;
+use App\Models\Choice;
 use App\Models\Novel;
 use App\Models\User;
 use App\Services\NovelService;
@@ -40,6 +42,19 @@ class NovelController extends Controller
             return new SceneResource($previousScene);
         } catch (\Exception $e) {
             return abort(400, 'Невозможно произвести шаг назад');
+        }
+    }
+
+    public function toNextScene(Novel $novel, NextSceneRequest $request)
+    {
+        /** @var User $user пока заглушка без аутентификации */
+        $user = User::first();
+        try {
+            $choice = $request->choice ? Choice::findOrFail($request->choice) : null;
+            $nextScene = $this->novelService->toNextScene($user, $novel, $choice);
+            return new SceneResource($nextScene);
+        } catch (\Exception $e) {
+            return abort(400, 'Невозможно произвести шаг вперёд');
         }
     }
 }
