@@ -41,6 +41,6 @@ class Scene extends Model
 
     public function isLastScene()
     {
-        return !$this->next_scene_id && $this->choices->isEmpty();
+        return !$this->next_scene_id && $this->choicesWithNextScene->isEmpty();
     }
 }
