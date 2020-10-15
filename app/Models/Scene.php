@@ -29,6 +29,11 @@ class Scene extends Model
         return $this->hasMany(Choice::class);
     }
 
+    public function choicesWithNextScene()
+    {
+        return $this->choices()->whereNotNull('next_scene_id');
+    }
+
     public function novel()
     {
         return $this->belongsTo(Novel::class);
