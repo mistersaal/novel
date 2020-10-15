@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home'
-import Game from "../views/Game"
+import Novel from "../views/Novel"
 
 Vue.use(VueRouter)
 
@@ -13,8 +13,8 @@ const routes = [
     },
     {
         path: '/novels/:id',
-        name: 'Game',
-        component: Game,
+        name: 'Novel',
+        component: Novel,
     }
 ]
 

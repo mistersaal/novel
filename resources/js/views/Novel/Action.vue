@@ -9,30 +9,16 @@
                     @click="$emit('close')"/>
             </header>
             <section class="modal-card-body">
-                <div class="action">
+                <div class="action" v-for="choice in choices">
                     <div class="level">
                         <div class="level-left">
                             <div class="level-item">
-                                <p>1 вариант действия</p>
+                                <p>{{ choice.value }}</p>
                             </div>
                         </div>
                         <div class="level-right">
                             <div class="level-item">
-                                <b-button>▶</b-button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="action">
-                    <div class="level">
-                        <div class="level-left">
-                            <div class="level-item">
-                                <p>2 вариант действия</p>
-                            </div>
-                        </div>
-                        <div class="level-right">
-                            <div class="level-item">
-                                <b-button>▶</b-button>
+                                <b-button @click="$emit('chose', choice.id)">▶</b-button>
                             </div>
                         </div>
                     </div>
@@ -46,7 +32,13 @@
 
 <script>
 export default {
-name: "Action"
+    name: "Action",
+    props: {
+        choices: {
+            type: Array,
+            default: [],
+        },
+    },
 }
 </script>
 
