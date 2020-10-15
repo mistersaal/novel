@@ -16,11 +16,11 @@ class NovelResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'author' => new AuthorResource($this->whenLoaded('author')),
+            'author' => new AuthorResource($this->author),
             'name' => $this->name,
             'description' => $this->description,
             'first_scene_id' => $this->first_scene_id,
-            'cover' => new ImageResource($this->whenLoaded('cover')),
+            'cover' => new ImageResource($this->cover),
         ];
     }
 

@@ -21,7 +21,6 @@ class NovelController extends Controller
 
     public function index(Novel $novel)
     {
-        $novel->load(['author', 'cover']);
         return new NovelResource($novel);
     }
 
