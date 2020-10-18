@@ -26,16 +26,16 @@ class NovelController extends Controller
 
     public function currentScene(Novel $novel)
     {
-        /** @var User $user пока заглушка без аутентификации */
-        $user = User::first();
+        /** @var User $user */
+        $user = auth()->user();
         $scene = $this->novelService->getCurrentScene($user, $novel);
         return new SceneResource($scene);
     }
 
     public function toPreviousScene(Novel $novel)
     {
-        /** @var User $user пока заглушка без аутентификации */
-        $user = User::first();
+        /** @var User $user */
+        $user = auth()->user();
         try {
             $previousScene = $this->novelService->toPreviousScene($user, $novel);
             return new SceneResource($previousScene);
@@ -46,8 +46,8 @@ class NovelController extends Controller
 
     public function toNextScene(Novel $novel, NextSceneRequest $request)
     {
-        /** @var User $user пока заглушка без аутентификации */
-        $user = User::first();
+        /** @var User $user */
+        $user = auth()->user();
         try {
             $choice = $request->choice ? Choice::findOrFail($request->choice) : null;
             $nextScene = $this->novelService->toNextScene($user, $novel, $choice);

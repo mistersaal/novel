@@ -2230,7 +2230,7 @@ __webpack_require__.r(__webpack_exports__);
       return this.$route.params['id'];
     },
     novelPath: function novelPath() {
-      return '/novels/' + this.id;
+      return '/api/novels/' + this.id;
     },
     isFirstScene: function isFirstScene() {
       return this.novel.first_scene_id === this.scene.id;

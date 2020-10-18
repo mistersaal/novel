@@ -62,7 +62,7 @@ export default {
             return this.$route.params['id']
         },
         novelPath() {
-            return '/novels/' + this.id
+            return '/api/novels/' + this.id
         },
         isFirstScene() {
             return this.novel.first_scene_id === this.scene.id

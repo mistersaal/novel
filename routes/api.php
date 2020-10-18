@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\NovelController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::prefix('/novels/{novel}')->middleware('auth:sanctum')->group(function () {
+
+    Route::get('/', [NovelController::class, 'index'])->name('novel');
+    Route::get('/scene', [NovelController::class, 'currentScene'])
+        ->name('novel.scene.current');
+    Route::post('/scene/previous', [NovelController::class, 'toPreviousScene'])
+        ->name('novel.scene.previous');
+    Route::post('/scene/next', [NovelController::class, 'toNextScene'])
+        ->name('novel.scene.next');
+
 });

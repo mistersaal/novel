@@ -1,8 +1,7 @@
 <?php
 
-use App\Http\Controllers\NovelController;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,18 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/', 'welcome');
-
 Auth::routes();
 
-Route::prefix('/novels/{novel}')->group(function () {
-
-    Route::get('/', [NovelController::class, 'index'])->name('game');
-    Route::get('/scene', [NovelController::class, 'currentScene'])
-        ->name('currentScene');
-    Route::post('/scene/previous', [NovelController::class, 'toPreviousScene'])
-        ->name('toPreviousScene');
-    Route::post('/scene/next', [NovelController::class, 'toNextScene'])
-        ->name('toNextScene');
-
-});
+Route::view('/', 'welcome');
