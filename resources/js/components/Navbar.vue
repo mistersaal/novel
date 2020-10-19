@@ -14,11 +14,16 @@
         <template slot="end">
             <b-navbar-item tag="div">
                 <div class="buttons">
-                    <a class="button">
-                        Зарегистрироваться
-                    </a>
-                    <a class="button">
-                        Войти
+                    <template v-if="$store.state.user === null">
+                        <a class="button" @click="$router.push('/register')">
+                            Зарегистрироваться
+                        </a>
+                        <a class="button" @click="$router.push('/login')">
+                            Войти
+                        </a>
+                    </template>
+                    <a class="button" @click="logout" v-else>
+                        Выйти
                     </a>
                 </div>
             </b-navbar-item>
@@ -34,7 +39,15 @@ export default {
             default: false,
             type: Boolean,
         }
-    }
+    },
+    methods: {
+        logout() {
+            axios.post('/logout').then(() => {
+                this.$store.commit('setUser', null)
+                this.$router.push('/')
+            })
+        },
+    },
 }
 </script>
 
