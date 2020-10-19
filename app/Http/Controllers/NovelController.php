@@ -17,6 +17,7 @@ class NovelController extends Controller
     public function __construct(NovelService $novelService)
     {
         $this->novelService = $novelService;
+        $this->middleware('auth:sanctum');
     }
 
     public function index(Novel $novel)

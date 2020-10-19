@@ -15,9 +15,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/user', UserController::class)->middleware('auth:sanctum');
+Route::get('/user', UserController::class);
 
-Route::prefix('/novels/{novel}')->middleware('auth:sanctum')->group(function () {
+Route::prefix('/novels/{novel}')->group(function () {
 
     Route::get('/', [NovelController::class, 'index'])->name('novel');
     Route::get('/scene', [NovelController::class, 'currentScene'])
