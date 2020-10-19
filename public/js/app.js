@@ -55628,10 +55628,28 @@ var routes = [{
 }, {
   path: '/novels/:id',
   name: 'Novel',
-  component: _views_Novel__WEBPACK_IMPORTED_MODULE_3__["default"]
+  component: _views_Novel__WEBPACK_IMPORTED_MODULE_3__["default"],
+  meta: {
+    requiresAuth: true
+  }
 }];
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   routes: routes
+});
+router.beforeEach(function (to, from, next) {
+  if (to.matched.some(function (record) {
+    return record.meta.requiresAuth;
+  })) {
+    if (store.state.user === null) {
+      next({
+        path: '/login'
+      });
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
 });
 /* harmony default export */ __webpack_exports__["default"] = (router);
 
