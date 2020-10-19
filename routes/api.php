@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\NovelController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::get('/user', UserController::class)->middleware('auth:sanctum');
 
 Route::prefix('/novels/{novel}')->middleware('auth:sanctum')->group(function () {
 

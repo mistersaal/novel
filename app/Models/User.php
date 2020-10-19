@@ -45,6 +45,6 @@ class User extends Authenticatable
 
     public function novels()
     {
-        return $this->hasMany(Novel::class);
+        return $this->hasMany(Novel::class, 'author_id');
     }
 }
