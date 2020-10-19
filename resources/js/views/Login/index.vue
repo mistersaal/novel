@@ -18,7 +18,7 @@
                         <b-field>
                             <b-button expanded type="is-info" native-type="submit" :loading="loading">Войти</b-button>
                         </b-field>
-                        <p class="help is-danger" v-if="wrong">Неверный логин или пароль</p>
+                        <p class="help is-danger" v-if="message !== ''">{{ message }}</p>
                     </form>
                 </div>
             </div>
@@ -38,13 +38,13 @@ export default {
                 password: '',
                 remember: false,
             },
-            wrong: false,
+            message: '',
             loading: false,
         }
     },
     methods: {
         login() {
-            this.wrong = false
+            this.message = ''
             this.loading = true
             axios.get('/sanctum/csrf-cookie').then(() => {
                 axios.post('/login', this.data).then(() => {
@@ -55,7 +55,7 @@ export default {
                 }).catch((error) => {
                     if (error.response) {
                         if (error.response.status === 422) {
-                            this.wrong = true
+                            this.message = error.response.data.errors.email[0]
                             this.loading = false
                             return
                         }

@@ -2156,7 +2156,7 @@ __webpack_require__.r(__webpack_exports__);
         password: '',
         remember: false
       },
-      wrong: false,
+      message: '',
       loading: false
     };
   },
@@ -2164,7 +2164,7 @@ __webpack_require__.r(__webpack_exports__);
     login: function login() {
       var _this = this;
 
-      this.wrong = false;
+      this.message = '';
       this.loading = true;
       axios.get('/sanctum/csrf-cookie').then(function () {
         axios.post('/login', _this.data).then(function () {
@@ -2178,7 +2178,7 @@ __webpack_require__.r(__webpack_exports__);
         })["catch"](function (error) {
           if (error.response) {
             if (error.response.status === 422) {
-              _this.wrong = true;
+              _this.message = error.response.data.errors.email[0];
               _this.loading = false;
               return;
             }
@@ -38435,9 +38435,9 @@ var render = function() {
                   1
                 ),
                 _vm._v(" "),
-                _vm.wrong
+                _vm.message !== ""
                   ? _c("p", { staticClass: "help is-danger" }, [
-                      _vm._v("Неверный логин или пароль")
+                      _vm._v(_vm._s(_vm.message))
                     ])
                   : _vm._e()
               ],
