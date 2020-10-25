@@ -1930,7 +1930,9 @@ __webpack_require__.r(__webpack_exports__);
 
       _this.$store.commit('setUser', data.user);
     })["catch"](function (error) {}).then(function () {
-      return _this.loading = false;
+      _this.loading = false;
+
+      _this.$store.commit('userDataLoaded');
     });
   }
 });
@@ -1981,6 +1983,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Navbar",
+  data: function data() {
+    return {
+      loggingOut: false
+    };
+  },
   props: {
     hidden: {
       "default": false,
@@ -1991,10 +1998,15 @@ __webpack_require__.r(__webpack_exports__);
     logout: function logout() {
       var _this = this;
 
+      this.loggingOut = true;
       axios.post('/logout').then(function () {
         _this.$store.commit('setUser', null);
 
-        _this.$router.push('/');
+        _this.loggingOut = false;
+
+        _this.$router.push({
+          name: 'Login'
+        });
       });
     }
   }
@@ -2081,6 +2093,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2093,11 +2110,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {};
   },
-  methods: {
-    toLosCops: function toLosCops() {
-      this.$router.push('/novels/1');
-    }
-  },
+  methods: {},
   computed: {},
   watch: {},
   created: function created() {}
@@ -2173,7 +2186,9 @@ __webpack_require__.r(__webpack_exports__);
 
             _this.$store.commit('setUser', data.user);
 
-            _this.$router.push('/');
+            _this.$router.push({
+              name: 'Home'
+            });
           });
         })["catch"](function (error) {
           if (error.response) {
@@ -2500,7 +2515,15 @@ __webpack_require__.r(__webpack_exports__);
       this.loading = true;
       axios.get('/sanctum/csrf-cookie').then(function () {
         axios.post('/register', _this.data).then(function () {
-          _this.$router.push('/');
+          axios.get('/api/user').then(function (_ref) {
+            var data = _ref.data;
+
+            _this.$store.commit('setUser', data.user);
+
+            _this.$router.push({
+              name: 'Home'
+            });
+          });
         })["catch"](function (error) {
           if (error.response) {
             if (error.response.status === 422) {
@@ -38067,7 +38090,7 @@ var render = function() {
             "b-navbar-item",
             {
               staticClass: "is-monoton is-size-3 has-text-danger",
-              attrs: { tag: "router-link", to: { path: "/" } }
+              attrs: { tag: "router-link", to: { name: "Home" } }
             },
             [_vm._v("\n            Los Cops\n        ")]
           )
@@ -38081,7 +38104,7 @@ var render = function() {
         [
           _c(
             "b-navbar-item",
-            { attrs: { tag: "router-link", to: { path: "/" } } },
+            { attrs: { tag: "router-link", to: { name: "Home" } } },
             [_vm._v("\n            Главная\n        ")]
           )
         ],
@@ -38100,14 +38123,10 @@ var render = function() {
                 _vm.$store.state.user === null
                   ? [
                       _c(
-                        "a",
+                        "router-link",
                         {
                           staticClass: "button",
-                          on: {
-                            click: function($event) {
-                              return _vm.$router.push("/register")
-                            }
-                          }
+                          attrs: { to: { name: "Register" } }
                         },
                         [
                           _vm._v(
@@ -38117,14 +38136,10 @@ var render = function() {
                       ),
                       _vm._v(" "),
                       _c(
-                        "a",
+                        "router-link",
                         {
                           staticClass: "button",
-                          on: {
-                            click: function($event) {
-                              return _vm.$router.push("/login")
-                            }
-                          }
+                          attrs: { to: { name: "Login" } }
                         },
                         [
                           _vm._v(
@@ -38134,8 +38149,11 @@ var render = function() {
                       )
                     ]
                   : _c(
-                      "a",
-                      { staticClass: "button", on: { click: _vm.logout } },
+                      "b-button",
+                      {
+                        attrs: { loading: _vm.loggingOut },
+                        on: { click: _vm.logout }
+                      },
                       [_vm._v("\n                    Выйти\n                ")]
                     )
               ],
@@ -38229,9 +38247,12 @@ var render = function() {
                       attrs: {
                         size: "is-medium",
                         expanded: "",
-                        type: "is-danger"
-                      },
-                      on: { click: _vm.toLosCops }
+                        type: "is-danger",
+                        tag: "router-link",
+                        to: _vm.$store.state.user
+                          ? { name: "Novel", params: { id: 1 } }
+                          : { name: "Login" }
+                      }
                     },
                     [_vm._v("Играть")]
                   )
@@ -55620,11 +55641,17 @@ var routes = [{
 }, {
   path: '/login',
   name: 'Login',
-  component: _views_Login__WEBPACK_IMPORTED_MODULE_4__["default"]
+  component: _views_Login__WEBPACK_IMPORTED_MODULE_4__["default"],
+  meta: {
+    requiresGuest: true
+  }
 }, {
   path: '/register',
   name: 'Register',
-  component: _views_Register__WEBPACK_IMPORTED_MODULE_5__["default"]
+  component: _views_Register__WEBPACK_IMPORTED_MODULE_5__["default"],
+  meta: {
+    requiresGuest: true
+  }
 }, {
   path: '/novels/:id',
   name: 'Novel',
@@ -55638,12 +55665,26 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
 });
 router.beforeEach(function (to, from, next) {
   if (to.matched.some(function (record) {
-    return record.meta.requiresAuth;
+    return record.meta.requiresAuth || record.meta.requiresGuest;
   })) {
-    if (store.state.user === null) {
-      next({
-        path: '/login'
-      });
+    if (store.state.user === null && to.meta.requiresAuth || store.state.user !== null && to.meta.requiresGuest) {
+      if (store.state.userDataLoaded) {
+        next(to.meta.requiresAuth ? {
+          name: 'Login'
+        } : from);
+      } else {
+        store.subscribe(function (mutation, state) {
+          if (mutation.type === 'userDataLoaded') {
+            if (store.state.user === null && to.meta.requiresAuth || store.state.user !== null && to.meta.requiresGuest) {
+              next(to.meta.requiresAuth ? {
+                name: 'Login'
+              } : from);
+            } else {
+              next();
+            }
+          }
+        });
+      }
     } else {
       next();
     }
@@ -55672,11 +55713,15 @@ __webpack_require__.r(__webpack_exports__);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
 /* harmony default export */ __webpack_exports__["default"] = (new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   state: {
-    user: null
+    user: null,
+    userDataLoaded: false
   },
   mutations: {
     setUser: function setUser(state, user) {
       state.user = user;
+    },
+    userDataLoaded: function userDataLoaded(state) {
+      state.userDataLoaded = true;
     }
   },
   actions: {},

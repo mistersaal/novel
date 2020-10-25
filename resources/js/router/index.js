@@ -16,12 +16,18 @@ const routes = [
     {
         path: '/login',
         name: 'Login',
-        component: Login
+        component: Login,
+        meta: {
+            requiresGuest: true
+        }
     },
     {
         path: '/register',
         name: 'Register',
-        component: Register
+        component: Register,
+        meta: {
+            requiresGuest: true
+        }
     },
     {
         path: '/novels/:id',
@@ -38,11 +44,25 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    if(to.matched.some(record => record.meta.requiresAuth)) {
-        if (store.state.user === null) {
-            next({
-                path: '/login'
-            })
+    if (to.matched.some(record => record.meta.requiresAuth || record.meta.requiresGuest)) {
+        if (store.state.user === null && to.meta.requiresAuth ||
+            store.state.user !== null && to.meta.requiresGuest
+        ) {
+            if (store.state.userDataLoaded) {
+                next(to.meta.requiresAuth ? {name: 'Login'} : from)
+            } else {
+                store.subscribe((mutation, state) => {
+                    if (mutation.type === 'userDataLoaded') {
+                        if (store.state.user === null && to.meta.requiresAuth ||
+                            store.state.user !== null && to.meta.requiresGuest
+                        ) {
+                            next(to.meta.requiresAuth ? {name: 'Login'} : from)
+                        } else {
+                            next()
+                        }
+                    }
+                })
+            }
         } else {
             next()
         }

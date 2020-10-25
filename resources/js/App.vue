@@ -18,7 +18,10 @@
                 this.$store.commit('setUser', data.user)
             }).catch((error) => {
 
-            }).then(() => this.loading = false)
+            }).then(() => {
+                this.loading = false
+                this.$store.commit('userDataLoaded')
+            })
         }
     }
 </script>

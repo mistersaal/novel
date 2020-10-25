@@ -49,7 +49,10 @@ export default {
             this.loading = true
             axios.get('/sanctum/csrf-cookie').then(() => {
                 axios.post('/register', this.data).then(() => {
-                    this.$router.push('/')
+                    axios.get('/api/user').then(({data}) => {
+                        this.$store.commit('setUser', data.user)
+                        this.$router.push({name: 'Home'})
+                    })
                 }).catch((error) => {
                     if (error.response) {
                         if (error.response.status === 422) {

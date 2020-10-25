@@ -19,7 +19,12 @@
                     <div class="column">
                         <div class="box">
                             <h3 class="title is-5">Los Cops</h3>
-                            <b-button size="is-medium" expanded type="is-danger" @click="toLosCops">Играть</b-button>
+                            <b-button size="is-medium"
+                                      expanded
+                                      type="is-danger"
+                                      tag="router-link"
+                                      :to="$store.state.user ? {name: 'Novel', params: {id: 1}} : {name: 'Login'}"
+                            >Играть</b-button>
                         </div>
                     </div>
                     <div class="column">
@@ -53,9 +58,7 @@
             }
         },
         methods: {
-            toLosCops() {
-                this.$router.push('/novels/1')
-            }
+
         },
         computed: {
 

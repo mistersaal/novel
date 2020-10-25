@@ -50,7 +50,7 @@ export default {
                 axios.post('/login', this.data).then(() => {
                     axios.get('/api/user').then(({data}) => {
                         this.$store.commit('setUser', data.user)
-                        this.$router.push('/')
+                        this.$router.push({name: 'Home'})
                     })
                 }).catch((error) => {
                     if (error.response) {
