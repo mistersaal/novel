@@ -4,22 +4,20 @@
         <section class="section">
             <div class="columns is-centered">
                 <div class="column is-one-third">
-                    <h1 class="title">Вход</h1>
-                    <form class="box" @submit.prevent="login">
-                        <b-field label="E-mail">
-                            <b-input type="email" v-model="data.email" placeholder="example@mail.ru" required></b-input>
+                    <h1 class="title">Новый пароль</h1>
+                    <form class="box" @submit.prevent="reset">
+                        <b-field label="Пароль" ref="password">
+                            <b-input type="password" v-model="password" required></b-input>
                         </b-field>
-                        <b-field label="Пароль">
-                            <b-input type="password" v-model="data.password" required></b-input>
-                        </b-field>
-                        <b-field>
-                            <b-checkbox v-model="data.remember">Запомнить</b-checkbox>
+                        <b-field label="Повторите пароль" ref="password_confirmation">
+                            <b-input type="password" v-model="password_confirmation" required></b-input>
                         </b-field>
                         <b-field>
-                            <b-button expanded type="is-info" native-type="submit" :loading="loading">Войти</b-button>
+                            <b-button expanded type="is-info" native-type="submit" :loading="loading">
+                                Сохранить
+                            </b-button>
                         </b-field>
                         <p class="help is-danger" v-if="message !== ''">{{ message }}</p>
-                        <router-link :to="{name: 'SendResetEmail'}"><p>Забыли пароль?</p></router-link>
                     </form>
                 </div>
             </div>
@@ -28,27 +26,30 @@
 </template>
 
 <script>
-import Navbar from '../../components/Navbar'
+import Navbar from "../../components/Navbar";
+
 export default {
-    name: "Login",
+    name: "NewPassword",
     components: {Navbar},
     data() {
         return {
-            data: {
-                email: '',
-                password: '',
-                remember: false,
-            },
-            message: '',
+            password: '',
+            password_confirmation: '',
             loading: false,
+            message: '',
         }
     },
     methods: {
-        login() {
+        reset() {
             this.message = ''
             this.loading = true
             axios.get('/sanctum/csrf-cookie').then(() => {
-                axios.post('/login', this.data).then(() => {
+                axios.post('/password/reset', {
+                    password: this.password,
+                    password_confirmation: this.password_confirmation,
+                    email: this.$route.params['email'],
+                    token: this.$route.params['token'],
+                }).then(() => {
                     axios.get('/api/user').then(({data}) => {
                         this.$store.commit('setUser', data.user)
                         this.$router.push({name: 'Home'})
@@ -56,8 +57,8 @@ export default {
                 }).catch((error) => {
                     if (error.response) {
                         if (error.response.status === 422) {
-                            this.message = error.response.data.errors.email[0]
                             this.loading = false
+                            this.message = error.response.data.errors.password[0]
                             return
                         }
                     }

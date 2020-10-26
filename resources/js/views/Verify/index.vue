@@ -4,8 +4,8 @@
         <section class="section">
             <div class="columns is-centered">
                 <div class="column is-one-third">
+                    <h1 class="title">Подтверждение почты</h1>
                     <div class="box">
-                        <h1 class="title">Подтверждение почты</h1>
                         <p class="mb-2">Вам отправлено письмо на почту с ссылкой для подтверждения.</p>
                         <b-field>
                             <b-button @click="resend" :loading="resending">Отправить повторно</b-button>

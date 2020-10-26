@@ -5,6 +5,8 @@ import Novel from '../views/Novel'
 import Login from '../views/Login'
 import Register from '../views/Register'
 import Verify from '../views/Verify'
+import SendResetEmail from '../views/Password/SendResetEmail'
+import NewPassword from '../views/Password/NewPassword'
 
 Vue.use(VueRouter)
 
@@ -36,6 +38,22 @@ const routes = [
         component: Verify,
         meta: {
             requiresAuth: true
+        }
+    },
+    {
+        path: '/password/reset',
+        name: 'SendResetEmail',
+        component: SendResetEmail,
+        meta: {
+            requiresGuest: true
+        }
+    },
+    {
+        path: '/password/new/:email/:token',
+        name: 'NewPassword',
+        component: NewPassword,
+        meta: {
+            requiresGuest: true
         }
     },
     {
