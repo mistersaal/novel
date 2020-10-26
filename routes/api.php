@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/user', UserController::class);
+Route::get('/user', UserController::class)->name('user');
 
 Route::prefix('/novels/{novel}')->group(function () {
 
