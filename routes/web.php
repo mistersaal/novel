@@ -14,6 +14,6 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Auth::routes();
+Auth::routes(['verify'=> true]);
 
-Route::view('/', 'welcome');
+Route::view('/', 'welcome')->name('welcome');

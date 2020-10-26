@@ -51,7 +51,7 @@ export default {
                 axios.post('/register', this.data).then(() => {
                     axios.get('/api/user').then(({data}) => {
                         this.$store.commit('setUser', data.user)
-                        this.$router.push({name: 'Home'})
+                        this.$router.push({name: 'VerifyEmail'})
                     })
                 }).catch((error) => {
                     if (error.response) {

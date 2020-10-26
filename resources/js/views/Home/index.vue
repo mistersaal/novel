@@ -47,8 +47,8 @@
 </template>
 
 <script>
-    import Navbar from "../components/Navbar"
-    import SiteFooter from "../components/SiteFooter"
+    import Navbar from "../../components/Navbar"
+    import SiteFooter from "../../components/SiteFooter"
     export default {
         name: 'Home',
         components: {SiteFooter, Footer: SiteFooter, Navbar},

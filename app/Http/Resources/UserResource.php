@@ -20,6 +20,7 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'novels' => NovelResource::collection($this->novels),
             'saves' => SaveResource::collection($this->saves),
+            'hasVerifiedEmail' => $this->hasVerifiedEmail(),
         ];
     }
 
