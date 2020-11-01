@@ -15,9 +15,9 @@ class CreateChoicesTable extends Migration
     {
         Schema::create('choices', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(\App\Models\Scene::class)->constrained();
+            $table->foreignIdFor(\App\Models\Scene::class)->constrained()->onDelete('cascade');
             $table->string('value');
-            $table->foreignIdFor(\App\Models\Scene::class, 'next_scene_id')->nullable()->constrained('scenes');
+            $table->foreignIdFor(\App\Models\Scene::class, 'next_scene_id')->nullable()->constrained('scenes')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -14,7 +14,7 @@ class AddNovelIdToMusicTable extends Migration
     public function up()
     {
         Schema::table('music', function (Blueprint $table) {
-            $table->foreignIdFor(\App\Models\Novel::class)->nullable()->constrained();
+            $table->foreignIdFor(\App\Models\Novel::class)->nullable()->constrained()->onDelete('cascade');
         });
     }
 

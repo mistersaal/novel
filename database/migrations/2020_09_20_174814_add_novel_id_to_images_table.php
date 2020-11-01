@@ -14,7 +14,7 @@ class AddNovelIdToImagesTable extends Migration
     public function up()
     {
         Schema::table('images', function (Blueprint $table) {
-            $table->foreignIdFor(\App\Models\Novel::class)->nullable()->constrained();
+            $table->foreignIdFor(\App\Models\Novel::class)->nullable()->constrained()->onDelete('cascade');
         });
     }
 

@@ -15,11 +15,11 @@ class CreateNovelsTable extends Migration
     {
         Schema::create('novels', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(\App\Models\User::class, 'author_id')->constrained('users');
-            $table->string('name');
-            $table->foreignIdFor(\App\Models\Image::class)->nullable()->constrained('images');
+            $table->foreignIdFor(\App\Models\User::class, 'author_id')->constrained('users')->onDelete('cascade');
+            $table->string('name')->unique();
+            $table->foreignIdFor(\App\Models\Image::class)->nullable()->constrained('images')->onDelete('cascade');
             $table->text('description')->nullable();
-            $table->foreignIdFor(\App\Models\Scene::class, 'first_scene_id')->nullable()->constrained('scenes');
+            $table->foreignIdFor(\App\Models\Scene::class, 'first_scene_id')->nullable()->constrained('scenes')->onDelete('cascade');
             $table->timestamps();
         });
     }

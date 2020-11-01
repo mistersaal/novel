@@ -15,10 +15,10 @@ class CreateScenesTable extends Migration
     {
         Schema::create('scenes', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(\App\Models\Image::class)->constrained();
+            $table->foreignIdFor(\App\Models\Image::class)->constrained()->onDelete('cascade');
             $table->text('text')->nullable();
-            $table->foreignIdFor(\App\Models\Music::class)->nullable()->constrained();
-            $table->foreignIdFor(\App\Models\Scene::class, 'next_scene_id')->nullable()->constrained('scenes');
+            $table->foreignIdFor(\App\Models\Music::class)->nullable()->constrained()->onDelete('cascade');
+            $table->foreignIdFor(\App\Models\Scene::class, 'next_scene_id')->nullable()->constrained('scenes')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -15,9 +15,9 @@ class CreateSavesTable extends Migration
     {
         Schema::create('saves', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(\App\Models\User::class)->constrained();
-            $table->foreignIdFor(\App\Models\Novel::class)->constrained();
-            $table->foreignIdFor(\App\Models\Scene::class)->constrained();
+            $table->foreignIdFor(\App\Models\User::class)->constrained()->onDelete('cascade');
+            $table->foreignIdFor(\App\Models\Novel::class)->constrained()->onDelete('cascade');
+            $table->foreignIdFor(\App\Models\Scene::class)->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
