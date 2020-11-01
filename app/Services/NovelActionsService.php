@@ -9,7 +9,7 @@ use App\Models\Novel;
 use App\Models\Scene;
 use App\Models\User;
 
-class NovelService
+class NovelActionsService
 {
     private $sceneService;
     private $savingService;
