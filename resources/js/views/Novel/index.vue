@@ -1,37 +1,36 @@
 <template>
     <div>
-        <navbar hidden></navbar>
-        <b-loading :active="!sceneIsLoaded" is-full-page></b-loading>
-        <template v-if="sceneIsLoaded">
-            <background :background="scene.image.path"></background>
-            <div class="scene-position">
-                <div class="scene">
-                    <b-button class="scene-button" @click="prev" :disabled="isFirstScene">Назад</b-button>
-                    <div class="text has-text-light">{{ scene.text }}</div>
-                    <b-button class="scene-button" @click="next" :disabled="isLastScene">Дальше</b-button>
-                </div>
+        <navbar></navbar>
+        <b-loading :active="!novelLoaded" is-full-page></b-loading>
+        <template v-if="novelLoaded">
+            <div class="description">
+                <section class="section">
+                    <div class="container pl-5 pr-5">
+                        <h1 class="title is-2 is-spaced">{{ novel.name }}</h1>
+                        <p class="subtitle">{{ novel.description }}</p>
+                        <b-field v-if="novel.first_scene_id">
+                            <b-button size="is-medium" type="is-primary" expanded>Играть</b-button>
+                        </b-field>
+                        <p class="has-text-danger mb-5" v-else>Новелла в процессе разработки!</p>
+
+                        <b-field v-if="userIsAuthor">
+                            <b-button size="is-medium" expanded>Редактировать</b-button>
+                        </b-field>
+                    </div>
+                </section>
             </div>
-            <action v-if="choiceRequired"
-                    :choices="scene.choices"
-                    @close="choiceRequired = false"
-                    @chose="sendChoiceAndLoadScene"
-            ></action>
+            <div class="cover" :style="novel.cover ? {'background-image': 'url(' + novel.cover.path + ')'} : {}"></div>
         </template>
     </div>
 </template>
 
 <script>
-import Navbar from "../../components/Navbar"
-import Background from "./Background"
-import Action from "./Action";
-
+import Navbar from '../../components/Navbar'
 export default {
     name: "Novel",
-    components: {Action, Background, Navbar},
+    components: {Navbar},
     data() {
         return {
-            sceneIsLoaded: false,
-            choiceRequired: false,
             novel: {
                 id: 0,
                 author: {
@@ -43,18 +42,7 @@ export default {
                 first_scene_id: 0,
                 cover: null
             },
-            scene: {
-                id: 0,
-                text: "",
-                image: {
-                    id: 0,
-                    name: "",
-                    path: ""
-                },
-                music: null,
-                choices: [],
-                last_scene: false
-            },
+            novelLoaded: false,
         }
     },
     computed: {
@@ -64,97 +52,53 @@ export default {
         novelPath() {
             return '/api/novels/' + this.id
         },
-        isFirstScene() {
-            return this.novel.first_scene_id === this.scene.id
-        },
-        isLastScene() {
-            return this.scene.last_scene
+        userIsAuthor() {
+            return this.novel.author.id === this.$store.state.user.id
         }
     },
     created() {
         axios.get(this.novelPath).then(({data}) => {
             this.novel = data.novel
-            axios.get(this.novelPath + '/scene').then(({data}) => {
-                this.scene = data.scene
-                this.sceneIsLoaded = true
-            })
-        })
-    },
-    methods: {
-        next() {
-            if (this.scene.choices.length) {
-                this.choiceRequired = true
-            } else {
-                this.sendChoiceAndLoadScene()
+            this.novelLoaded = true
+        }).catch((error) => {
+            if (error.response) {
+                if (error.response.status === 404) {
+                    this.$buefy.notification.open({
+                        message: 'Такой новеллы не существует',
+                        duration: 3000,
+                        type: 'is-danger',
+                    })
+                    this.$router.replace({name: 'Home'})
+                    return
+                }
             }
-        },
-        sendChoiceAndLoadScene(choice = null) {
-            this.choiceRequired = false
-            this.sceneIsLoaded = false
-            let sentData = {}
-            if (choice) {
-                sentData.choice = choice
-            }
-            axios.post(this.novelPath + '/scene/next', sentData).then(({data}) => {
-                this.scene = data.scene
-                this.sceneIsLoaded = true
-            }).catch(error => {
-                this.sceneIsLoaded = true
-                this.$buefy.notification.open({
-                    message: error.response.data.message ?? 'Неизвестная ошибка',
-                    type: 'is-warning',
-                    duration: 10000
-                })
-            })
-        },
-        prev() {
-            this.sceneIsLoaded = false
-            axios.post(this.novelPath + '/scene/previous').then(({data}) => {
-                this.scene = data.scene
-                this.sceneIsLoaded = true
-            })
-        },
+            throw error
+        }).catch(defaultErrorHandler)
     },
-    mounted() {
-        document.querySelector('html').style['overflow-y'] = 'hidden'
-    },
-    beforeDestroy() {
-        document.querySelector('html').style['overflow-y'] = ''
-    }
 }
 </script>
 
 <style scoped lang="scss">
-.scene-position {
+.description {
     position: absolute;
-    bottom: 0;
+    top: 0;
     left: 0;
-    width: 100%;
-    height: 170px;
-    background-color: rgba(0, 0, 0, 0.6);
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-}
-
-.scene {
-    width: 100%;
+    padding-top: 64px;
     height: 100%;
-    max-width: 1360px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-
-    & .scene-button {
-        width: 100px;
-    }
-    & .text {
-        margin: 0 30px;
-        height: 100%;
-        overflow-y: auto;
-    }
+    width: 100%;
+    max-width: 500px;
+    background-color: white;
+}
+.cover {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding-top: 64px;
+    height: 100%;
+    width: calc(100% - 500px);
+    background-position: center;
+    background-size: cover;
+    background-color: lightgray;
+    z-index: -1;
 }
 </style>

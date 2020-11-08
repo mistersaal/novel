@@ -2,20 +2,22 @@
     <div>
         <navbar></navbar>
         <section class="section">
-            <div class="columns is-centered">
-                <div class="column is-one-third">
-                    <h1 class="title">Восстановить пароль</h1>
-                    <form class="box" @submit.prevent="reset" v-if="!sent">
-                        <b-field label="E-mail">
-                            <b-input type="email" v-model="data.email" placeholder="example@mail.ru" required></b-input>
-                        </b-field>
-                        <b-field>
-                            <b-button expanded type="is-info" native-type="submit" :loading="loading">Восстановить пароль</b-button>
-                        </b-field>
-                        <p class="help is-danger" v-if="message !== ''">{{ message }}</p>
-                    </form>
-                    <div class="box" v-else>
-                        <p>Ссылка на сброс пароля была отправлена на почту.</p>
+            <div class="container">
+                <div class="columns is-centered">
+                    <div class="column is-one-third">
+                        <h1 class="title">Восстановить пароль</h1>
+                        <form class="box" @submit.prevent="reset" v-if="!sent">
+                            <b-field label="E-mail">
+                                <b-input type="email" v-model="data.email" placeholder="example@mail.ru" required></b-input>
+                            </b-field>
+                            <b-field>
+                                <b-button expanded type="is-info" native-type="submit" :loading="loading">Восстановить пароль</b-button>
+                            </b-field>
+                            <p class="help is-danger" v-if="message !== ''">{{ message }}</p>
+                        </form>
+                        <div class="box" v-else>
+                            <p>Ссылка на сброс пароля была отправлена на почту.</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -24,7 +26,7 @@
 </template>
 
 <script>
-import Navbar from '../../components/Navbar'
+import Navbar from '../../../components/Navbar'
 export default {
     name: "SendResetEmail",
     components: {Navbar},

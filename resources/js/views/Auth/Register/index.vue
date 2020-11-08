@@ -2,26 +2,28 @@
     <div>
         <navbar></navbar>
         <section class="section">
-            <div class="columns is-centered">
-                <div class="column is-one-third">
-                    <h1 class="title">Регистрация</h1>
-                    <form class="box" @submit.prevent="register">
-                        <b-field label="E-mail" ref="email">
-                            <b-input type="email" v-model="data.email" placeholder="example@mail.ru" required></b-input>
-                        </b-field>
-                        <b-field label="Никнейм" ref="name">
-                            <b-input type="text" v-model="data.name" placeholder="user123" maxlength="255" required :has-counter="false"></b-input>
-                        </b-field>
-                        <b-field label="Пароль" ref="password">
-                            <b-input type="password" v-model="data.password" required></b-input>
-                        </b-field>
-                        <b-field label="Повторите пароль" ref="password_confirmation">
-                            <b-input type="password" v-model="data.password_confirmation" required></b-input>
-                        </b-field>
-                        <b-field>
-                            <b-button expanded type="is-info" native-type="submit" :loading="loading">Зарегистрироваться</b-button>
-                        </b-field>
-                    </form>
+            <div class="container">
+                <div class="columns is-centered">
+                    <div class="column is-one-third">
+                        <h1 class="title">Регистрация</h1>
+                        <form class="box" @submit.prevent="register">
+                            <b-field label="E-mail" ref="email">
+                                <b-input type="email" v-model="data.email" placeholder="example@mail.ru" required></b-input>
+                            </b-field>
+                            <b-field label="Никнейм" ref="name">
+                                <b-input type="text" v-model="data.name" placeholder="user123" maxlength="255" required :has-counter="false"></b-input>
+                            </b-field>
+                            <b-field label="Пароль" ref="password">
+                                <b-input type="password" v-model="data.password" required></b-input>
+                            </b-field>
+                            <b-field label="Повторите пароль" ref="password_confirmation">
+                                <b-input type="password" v-model="data.password_confirmation" required></b-input>
+                            </b-field>
+                            <b-field>
+                                <b-button expanded type="is-info" native-type="submit" :loading="loading">Зарегистрироваться</b-button>
+                            </b-field>
+                        </form>
+                    </div>
                 </div>
             </div>
         </section>
@@ -29,7 +31,7 @@
 </template>
 
 <script>
-import Navbar from '../../components/Navbar'
+import Navbar from '../../../components/Navbar'
 export default {
     name: "Register",
     components: {Navbar},

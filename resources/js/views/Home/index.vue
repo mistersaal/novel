@@ -30,7 +30,22 @@
                     <div class="column">
                         <div class="box">
                             <h3 class="title is-5">Создать свою новеллу</h3>
-                            <b-button size="is-medium" expanded type="is-primary">Создать</b-button>
+                            <b-button size="is-medium"
+                                      expanded
+                                      type="is-primary"
+                                      tag="router-link"
+                                      :to="$store.state.user ? {name: 'NovelCreate'} : {name: 'Login'}"
+                            >Создать</b-button>
+                        </div>
+                    </div>
+                </div>
+                <div class="box" v-if="ownNovels.length">
+                    <h3 class="title is-5">Свои новеллы</h3>
+                    <div class="has-text-grey-light has-text-centered">
+                        <div class="columns">
+                            <div class="column is-one-quarter" v-for="ownNovel in ownNovels" :key="ownNovel.id">
+                                <novel-card :novel="ownNovel" user-is-author></novel-card>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -49,9 +64,10 @@
 <script>
     import Navbar from "../../components/Navbar"
     import SiteFooter from "../../components/SiteFooter"
+    import NovelCard from "./NovelCard";
     export default {
         name: 'Home',
-        components: {SiteFooter, Footer: SiteFooter, Navbar},
+        components: {NovelCard, SiteFooter, Footer: SiteFooter, Navbar},
         data() {
             return {
 
@@ -61,7 +77,9 @@
 
         },
         computed: {
-
+            ownNovels() {
+                return this.$store.state.user ? this.$store.state.user.novels : []
+            },
         },
         watch: {
 

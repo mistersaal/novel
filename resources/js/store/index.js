@@ -12,6 +12,9 @@ export default new Vuex.Store({
         setUser(state, user) {
             state.user = user
         },
+        addUserNovel(state, novel) {
+            state.user.novels.push(novel)
+        },
         userDataLoaded(state) {
             state.userDataLoaded = true
         }

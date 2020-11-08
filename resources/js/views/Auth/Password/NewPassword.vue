@@ -2,23 +2,25 @@
     <div>
         <navbar></navbar>
         <section class="section">
-            <div class="columns is-centered">
-                <div class="column is-one-third">
-                    <h1 class="title">Новый пароль</h1>
-                    <form class="box" @submit.prevent="reset">
-                        <b-field label="Пароль" ref="password">
-                            <b-input type="password" v-model="password" required></b-input>
-                        </b-field>
-                        <b-field label="Повторите пароль" ref="password_confirmation">
-                            <b-input type="password" v-model="password_confirmation" required></b-input>
-                        </b-field>
-                        <b-field>
-                            <b-button expanded type="is-info" native-type="submit" :loading="loading">
-                                Сохранить
-                            </b-button>
-                        </b-field>
-                        <p class="help is-danger" v-if="message !== ''">{{ message }}</p>
-                    </form>
+            <div class="container">
+                <div class="columns is-centered">
+                    <div class="column is-one-third">
+                        <h1 class="title">Новый пароль</h1>
+                        <form class="box" @submit.prevent="reset">
+                            <b-field label="Пароль" ref="password">
+                                <b-input type="password" v-model="password" required></b-input>
+                            </b-field>
+                            <b-field label="Повторите пароль" ref="password_confirmation">
+                                <b-input type="password" v-model="password_confirmation" required></b-input>
+                            </b-field>
+                            <b-field>
+                                <b-button expanded type="is-info" native-type="submit" :loading="loading">
+                                    Сохранить
+                                </b-button>
+                            </b-field>
+                            <p class="help is-danger" v-if="message !== ''">{{ message }}</p>
+                        </form>
+                    </div>
                 </div>
             </div>
         </section>
@@ -26,7 +28,7 @@
 </template>
 
 <script>
-import Navbar from "../../components/Navbar";
+import Navbar from "../../../components/Navbar";
 
 export default {
     name: "NewPassword",

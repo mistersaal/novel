@@ -11,8 +11,20 @@ Vue.use(Buefy, {})
 
 import App from "./App.vue";
 
-new Vue({
+const app = new Vue({
     router,
     store,
     render: h => h(App)
 }).$mount('#app')
+
+window.defaultErrorHandler = (error) => {
+    let message = 'Неизвестная ошибка'
+    if (error.response) {
+        message = error.response.data.message
+    }
+    app.$buefy.notification.open({
+        message: message,
+        duration: 10000,
+        type: 'is-danger'
+    })
+}

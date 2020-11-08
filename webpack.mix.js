@@ -1,5 +1,11 @@
 const mix = require('laravel-mix');
 mix.disableSuccessNotifications();
+mix.options({
+    hmrOptions: {
+        host: 'novel',
+        port: 8888
+    }
+})
 
 /*
  |--------------------------------------------------------------------------
@@ -13,5 +19,4 @@ mix.disableSuccessNotifications();
  */
 
 mix.js('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css')
-    .version();
+    .sass('resources/sass/app.scss', 'public/css');

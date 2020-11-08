@@ -2,14 +2,16 @@
     <div>
         <navbar></navbar>
         <section class="section">
-            <div class="columns is-centered">
-                <div class="column is-one-third">
-                    <h1 class="title">Подтверждение почты</h1>
-                    <div class="box">
-                        <p class="mb-2">Вам отправлено письмо на почту с ссылкой для подтверждения.</p>
-                        <b-field>
-                            <b-button @click="resend" :loading="resending">Отправить повторно</b-button>
-                        </b-field>
+            <div class="container">
+                <div class="columns is-centered">
+                    <div class="column is-one-third">
+                        <h1 class="title">Подтверждение почты</h1>
+                        <div class="box">
+                            <p class="mb-2">Вам отправлено письмо на почту с ссылкой для подтверждения.</p>
+                            <b-field>
+                                <b-button @click="resend" :loading="resending">Отправить повторно</b-button>
+                            </b-field>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -18,7 +20,7 @@
 </template>
 
 <script>
-import Navbar from '../../components/Navbar'
+import Navbar from '../../../components/Navbar'
 
 export default {
     name: "Verify",
