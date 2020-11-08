@@ -11,12 +11,17 @@ class NovelController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:sanctum');
+        $this->middleware('auth:sanctum', ['except' => ['index', 'all']]);
     }
 
     public function index(Novel $novel)
     {
         return new NovelResource($novel->load('author'));
+    }
+
+    public function all()
+    {
+        return NovelResource::collection(Novel::with('author')->get());
     }
 
     public function create(CreateNovelRequest $request)

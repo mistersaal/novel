@@ -91,9 +91,6 @@ const routes = [
                 path: '',
                 name: 'Novel',
                 component: Novel,
-                meta: {
-                    requiresAuth: true,
-                }
             }
         ]),
     ]),

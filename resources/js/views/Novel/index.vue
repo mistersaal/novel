@@ -9,7 +9,12 @@
                         <h1 class="title is-2 is-spaced">{{ novel.name }}</h1>
                         <p class="subtitle">{{ novel.description }}</p>
                         <b-field v-if="novel.first_scene_id">
-                            <b-button size="is-medium" type="is-primary" expanded>Играть</b-button>
+                            <b-button size="is-medium"
+                                      type="is-primary"
+                                      expanded
+                                      tag="router-link"
+                                      :to="playLink"
+                            >Играть</b-button>
                         </b-field>
                         <p class="has-text-danger mb-5" v-else>Новелла в процессе разработки!</p>
 
@@ -53,7 +58,10 @@ export default {
             return '/api/novels/' + this.id
         },
         userIsAuthor() {
-            return this.novel.author.id === this.$store.state.user.id
+            return this.$store.state.user && this.novel.author.id === this.$store.state.user.id
+        },
+        playLink() {
+            return this.$store.state.user ? {name: 'NovelProcess', params: {id: this.novel.id}} : {name: 'Login'}
         }
     },
     created() {

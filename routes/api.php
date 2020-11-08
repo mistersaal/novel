@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/user', UserController::class)->name('user');
 
+Route::get('/novels', [NovelController::class, 'all'])->name('novel.all');
 Route::post('/novels', [NovelController::class, 'create'])->name('novel.create');
 
 Route::prefix('/novels/{novel}')->group(function () {

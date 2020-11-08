@@ -23,7 +23,7 @@
                                       expanded
                                       type="is-danger"
                                       tag="router-link"
-                                      :to="$store.state.user ? {name: 'Novel', params: {id: 1}} : {name: 'Login'}"
+                                      :to="{name: 'Novel', params: {id: 1}}"
                             >Играть</b-button>
                         </div>
                     </div>
@@ -49,10 +49,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="box">
+                <div class="box container" ref="allNovels">
                     <h3 class="title is-5">Пользовательские новеллы</h3>
                     <div class="has-text-grey-light has-text-centered">
-                        <p>Пока что тут ничего нет...</p>
+                        <p v-if="allNovels.length === 0">Пока что тут ничего нет...</p>
+                        <div v-else class="columns">
+                            <div class="column is-one-quarter" v-for="novel in allNovels" :key="novel.id">
+                                <novel-card :novel="novel"></novel-card>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -70,7 +75,7 @@
         components: {NovelCard, SiteFooter, Footer: SiteFooter, Navbar},
         data() {
             return {
-
+                allNovels: [],
             }
         },
         methods: {
@@ -84,8 +89,14 @@
         watch: {
 
         },
-        created() {
-
+        mounted() {
+            const loading = this.$buefy.loading.open({
+                container: this.$refs.allNovels
+            })
+            axios.get('/api/novels').then(({data}) => {
+                this.allNovels = data.data;
+                loading.close()
+            })
         }
     }
 </script>
