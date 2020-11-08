@@ -76,7 +76,7 @@ export default {
             axios.post('/api/novels', this.novel)
                 .then(({data}) => {
                     this.$store.commit('addUserNovel', data.novel)
-                    this.$router.push({name: 'Novel', params: {id: data.novel.id}})
+                    this.$router.push({name: 'NovelEdit', params: {id: data.novel.id}})
                 }).catch((error) => {
                     if (error.response) {
                         if (error.response.status === 422) {

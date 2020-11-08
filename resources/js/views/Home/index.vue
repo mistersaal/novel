@@ -96,7 +96,7 @@
             axios.get('/api/novels').then(({data}) => {
                 this.allNovels = data.data;
                 loading.close()
-            })
+            }).catch(defaultErrorHandler)
         }
     }
 </script>

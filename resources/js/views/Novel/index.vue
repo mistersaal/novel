@@ -19,7 +19,11 @@
                         <p class="has-text-danger mb-5" v-else>Новелла в процессе разработки!</p>
 
                         <b-field v-if="userIsAuthor">
-                            <b-button size="is-medium" expanded>Редактировать</b-button>
+                            <b-button size="is-medium"
+                                      expanded
+                                      tag="router-link"
+                                      :to="editLink"
+                            >Редактировать</b-button>
                         </b-field>
                     </div>
                 </section>
@@ -62,6 +66,9 @@ export default {
         },
         playLink() {
             return this.$store.state.user ? {name: 'NovelProcess', params: {id: this.novel.id}} : {name: 'Login'}
+        },
+        editLink() {
+            return this.$store.state.user ? {name: 'NovelEdit', params: {id: this.novel.id}} : {name: 'Login'}
         }
     },
     created() {

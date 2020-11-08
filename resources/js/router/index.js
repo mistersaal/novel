@@ -9,6 +9,11 @@ import Verify from '../views/Auth/Verify'
 import SendResetEmail from '../views/Auth/Password/SendResetEmail'
 import NewPassword from '../views/Auth/Password/NewPassword'
 import NovelCreate from '../views/Novel/Create'
+import NovelEdit from '../views/Novel/Edit'
+import NovelInfoEdit from "../views/Novel/Edit/NovelInfoEdit";
+import ScenesEdit from "../views/Novel/Edit/ScenesEdit";
+import Images from "../views/Novel/Edit/Images";
+import Musics from "../views/Novel/Edit/Musics";
 
 const groupRoutes = (prefix, routes) => {
     return routes.map(route => {
@@ -86,6 +91,38 @@ const routes = [
                 meta: {
                     requiresAuth: true,
                 }
+            },
+            {
+                path: '/edit',
+                component: NovelEdit,
+                meta: {
+                    requiresAuth: true,
+                    requiresVerifiedEmail: true,
+                },
+                children: [
+                    ...groupRoutes('/novels/:id/edit', [
+                        {
+                            path: '/',
+                            name: 'NovelEdit',
+                            component: NovelInfoEdit,
+                        },
+                        {
+                            path: '/scenes',
+                            name: 'ScenesEdit',
+                            component: ScenesEdit,
+                        },
+                        {
+                            path: '/images',
+                            name: 'NovelImages',
+                            component: Images,
+                        },
+                        {
+                            path: '/musics',
+                            name: 'NovelMusics',
+                            component: Musics,
+                        },
+                    ]),
+                ]
             },
             {
                 path: '',
