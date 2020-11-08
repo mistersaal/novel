@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\NovelActionsController;
+use App\Http\Controllers\NovelSceneController;
 use App\Http\Controllers\NovelController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -22,12 +22,12 @@ Route::post('/novels', [NovelController::class, 'create'])->name('novel.create')
 
 Route::prefix('/novels/{novel}')->group(function () {
 
-    Route::get('/', [NovelActionsController::class, 'index'])->name('novel');
-    Route::get('/scene', [NovelActionsController::class, 'currentScene'])
+    Route::get('/', [NovelController::class, 'index'])->name('novel');
+    Route::get('/scene', [NovelSceneController::class, 'currentScene'])
         ->name('novel.scene.current');
-    Route::post('/scene/previous', [NovelActionsController::class, 'toPreviousScene'])
+    Route::post('/scene/previous', [NovelSceneController::class, 'toPreviousScene'])
         ->name('novel.scene.previous');
-    Route::post('/scene/next', [NovelActionsController::class, 'toNextScene'])
+    Route::post('/scene/next', [NovelSceneController::class, 'toNextScene'])
         ->name('novel.scene.next');
 
 });

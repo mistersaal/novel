@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\SceneException;
 use App\Http\Requests\NextSceneRequest;
-use App\Http\Resources\NovelResource;
 use App\Http\Resources\SceneResource;
 use App\Models\Choice;
 use App\Models\Novel;
 use App\Models\User;
 use App\Services\NovelActionsService;
 
-class NovelActionsController extends Controller
+class NovelSceneController extends Controller
 {
     private $novelService;
 
@@ -20,16 +20,15 @@ class NovelActionsController extends Controller
         $this->middleware('auth:sanctum');
     }
 
-    public function index(Novel $novel)
-    {
-        return new NovelResource($novel->load('author'));
-    }
-
     public function currentScene(Novel $novel)
     {
         /** @var User $user */
         $user = auth()->user();
-        $scene = $this->novelService->getCurrentScene($user, $novel);
+        try {
+            $scene = $this->novelService->getCurrentScene($user, $novel);
+        } catch (SceneException $e) {
+            abort(404, 'Новелла пока пуста');
+        }
         return new SceneResource($scene);
     }
 

@@ -4,6 +4,7 @@
 namespace App\Services;
 
 
+use App\Exceptions\SceneException;
 use App\Models\Choice;
 use App\Models\Novel;
 use App\Models\Scene;
@@ -24,6 +25,7 @@ class NovelActionsService
      * @param User $user
      * @param Novel $novel
      * @return Scene
+     * @throws SceneException
      */
     public function getCurrentScene(User $user, Novel $novel): Scene
     {
