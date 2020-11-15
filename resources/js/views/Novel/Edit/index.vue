@@ -5,7 +5,9 @@
         <section v-if="novelLoaded" class="hero is-light">
             <div class="hero-body">
                 <div class="container">
-                    <div class="title">{{ novel.name }}</div>
+                    <div class="title">
+                        <router-link :to="{name: 'Novel', params: {id: id}}">{{ novel.name }}</router-link>
+                    </div>
                     <div class="subtitle">Редактирование новеллы</div>
                 </div>
             </div>
