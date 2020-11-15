@@ -40,4 +40,9 @@ class Novel extends Model
     {
         return $this->hasMany(Save::class);
     }
+
+    public function isAuthor(User $user)
+    {
+        return $user->id === $this->author_id;
+    }
 }

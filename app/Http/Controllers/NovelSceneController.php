@@ -9,6 +9,7 @@ use App\Models\Choice;
 use App\Models\Novel;
 use App\Models\User;
 use App\Services\NovelActionsService;
+use Illuminate\Support\Facades\Auth;
 
 class NovelSceneController extends Controller
 {
@@ -22,8 +23,7 @@ class NovelSceneController extends Controller
 
     public function currentScene(Novel $novel)
     {
-        /** @var User $user */
-        $user = auth()->user();
+        $user = Auth::user();
         try {
             $scene = $this->novelService->getCurrentScene($user, $novel);
         } catch (SceneException $e) {
@@ -34,8 +34,7 @@ class NovelSceneController extends Controller
 
     public function toPreviousScene(Novel $novel)
     {
-        /** @var User $user */
-        $user = auth()->user();
+        $user = Auth::user();
         try {
             $previousScene = $this->novelService->toPreviousScene($user, $novel);
             return new SceneResource($previousScene);
@@ -46,8 +45,7 @@ class NovelSceneController extends Controller
 
     public function toNextScene(Novel $novel, NextSceneRequest $request)
     {
-        /** @var User $user */
-        $user = auth()->user();
+        $user = Auth::user();
         try {
             $choice = $request->choice ? Choice::findOrFail($request->choice) : null;
             $nextScene = $this->novelService->toNextScene($user, $novel, $choice);
