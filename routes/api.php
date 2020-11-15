@@ -23,6 +23,8 @@ Route::post('/novels', [NovelController::class, 'create'])->name('novel.create')
 
 Route::prefix('/novels/{novel}')->group(function () {
 
+    Route::patch('/', [NovelController::class, 'patch'])->name('novel.patch');
+
     Route::get('/', [NovelController::class, 'index'])->name('novel');
     Route::get('/scene', [NovelSceneController::class, 'currentScene'])
         ->name('novel.scene.current');
