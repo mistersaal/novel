@@ -30,7 +30,7 @@
                 </div>
             </div>
         </section>
-        <router-view></router-view>
+        <router-view :novel.sync="novel" :novel-path="novelPath"></router-view>
     </div>
 </template>
 
