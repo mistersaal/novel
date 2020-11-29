@@ -11,6 +11,7 @@ class PatchNovelRequest extends FormRequest
         return [
             'name' => 'string|max:50|unique:novels,name',
             'description' => 'string|max:1000',
+            'image_id' => 'exists:images,id'
         ];
     }
 }

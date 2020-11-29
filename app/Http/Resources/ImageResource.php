@@ -20,4 +20,6 @@ class ImageResource extends JsonResource
             'path' => '/storage/games/' . $this->novel_id . '/images/' . $this->filename,
         ];
     }
+
+    public static $wrap = 'image';
 }
