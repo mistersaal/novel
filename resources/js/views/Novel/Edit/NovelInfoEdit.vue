@@ -49,7 +49,7 @@ export default {
     watch: {
         novel(value) {
             this.localNovel = _.clone(value)
-            this.localNovel.image_id = this.localNovel.cover.id
+            this.localNovel.image_id = this.localNovel.cover.id ?? null
         }
     },
     computed: {
@@ -76,7 +76,7 @@ export default {
             if (this.novel.description !== this.localNovel.description) {
                 data.description = this.localNovel.description
             }
-            if (this.novel.cover.id !== this.localNovel.image_id) {
+            if ((this.novel.cover.id ?? null) !== this.localNovel.image_id) {
                 data.image_id = this.localNovel.image_id
             }
             axios.patch(this.novelPath, data).then(({data}) => {
