@@ -49,7 +49,11 @@ export default {
     watch: {
         novel(value) {
             this.localNovel = _.clone(value)
-            this.localNovel.image_id = this.localNovel.cover.id ?? null
+            if (this.localNovel.cover === null) {
+                this.localNovel.image_id = null
+            } else {
+                this.localNovel.image_id = this.localNovel.cover.id
+            }
         }
     },
     computed: {
@@ -58,7 +62,7 @@ export default {
         }
     },
     created() {
-        this.localNovel = _.clone(this.novel)
+        this.watch.novel(this.novel)
         axios.get(this.novelPath + '/images')
             .then(({data}) => this.images = data.data)
             .catch(defaultErrorHandler)
@@ -76,7 +80,9 @@ export default {
             if (this.novel.description !== this.localNovel.description) {
                 data.description = this.localNovel.description
             }
-            if ((this.novel.cover.id ?? null) !== this.localNovel.image_id) {
+            if (this.novel.cover !== null && this.novel.cover.id !== this.localNovel.image_id ||
+                this.novel.cover === null && this.localNovel.image_id !== null
+            ) {
                 data.image_id = this.localNovel.image_id
             }
             axios.patch(this.novelPath, data).then(({data}) => {
