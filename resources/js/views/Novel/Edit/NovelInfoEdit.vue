@@ -62,7 +62,6 @@ export default {
         }
     },
     created() {
-        this.watch.novel(this.novel)
         axios.get(this.novelPath + '/images')
             .then(({data}) => this.images = data.data)
             .catch(defaultErrorHandler)
