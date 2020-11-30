@@ -48,12 +48,7 @@ export default {
     },
     watch: {
         novel(value) {
-            this.localNovel = _.clone(value)
-            if (this.localNovel.cover === null) {
-                this.localNovel.image_id = null
-            } else {
-                this.localNovel.image_id = this.localNovel.cover.id
-            }
+            this.setupLocalNovel(value)
         }
     },
     computed: {
@@ -62,11 +57,20 @@ export default {
         }
     },
     created() {
+        this.setupLocalNovel(this.novel)
         axios.get(this.novelPath + '/images')
             .then(({data}) => this.images = data.data)
             .catch(defaultErrorHandler)
     },
     methods: {
+        setupLocalNovel(value) {
+            this.localNovel = _.clone(value)
+            if (this.localNovel.cover === null) {
+                this.localNovel.image_id = null
+            } else {
+                this.localNovel.image_id = this.localNovel.cover.id
+            }
+        },
         update() {
             if (!this.changed) {
                 return
