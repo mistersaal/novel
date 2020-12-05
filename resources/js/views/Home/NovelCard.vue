@@ -8,10 +8,10 @@
                     ></figure>
                 </figure>
             </div>
-            <div class="card-content">
+            <div class="card-content fixed-height is-flex is-align-items-center is-justify-content-center">
                 <div class="media">
                     <div class="media-content">
-                        <p class="title is-4">{{ novel.name }}</p>
+                        <p class="title" :class="headerSize">{{ novel.name }}</p>
                         <p class="subtitle is-6">@{{ author }}</p>
                     </div>
                 </div>
@@ -39,6 +39,9 @@ export default {
         },
         linkTo() {
             return {name: 'Novel', params: {id: this.novel.id}}
+        },
+        headerSize() {
+            return this.novel.name.length > 20 ? 'is-5' : 'is-4'
         }
     },
 
@@ -56,5 +59,8 @@ export default {
     background-position: center;
     background-size: cover;
     background-color: lightgray;
+}
+.fixed-height {
+    height: 126px;
 }
 </style>

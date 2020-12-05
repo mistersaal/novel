@@ -53,7 +53,7 @@
                     <h3 class="title is-5">Пользовательские новеллы</h3>
                     <div class="has-text-grey-light has-text-centered">
                         <p v-if="allNovels.length === 0">Пока что тут ничего нет...</p>
-                        <div v-else class="columns">
+                        <div v-else class="columns is-multiline">
                             <div class="column is-one-quarter" v-for="novel in allNovels" :key="novel.id">
                                 <novel-card :novel="novel"></novel-card>
                             </div>
