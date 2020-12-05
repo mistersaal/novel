@@ -1,7 +1,6 @@
 <template>
     <section class="section">
         <div class="container">
-            <b-loading :active="!loaded" :is-full-page="false"></b-loading>
             <div class="columns">
                 <div class="column is-one-quarter">
                     <div class="box">
@@ -9,7 +8,7 @@
                     </div>
                 </div>
             </div>
-            <div class="columns">
+            <div class="columns is-multiline">
                 <div class="column is-one-quarter" v-for="(image, key) in images" :key="key">
                     <div class="box is-clickable">
                         <figure class="image">
@@ -60,25 +59,19 @@
 <script>
 export default {
     name: "Images",
-    props: ['novel', 'novelPath'],
+    props: ['novel', 'novelPath', 'images'],
     data() {
         return {
-            images: [],
             image: {
                 file: null,
                 name: '',
             },
-            loaded: false,
             loadForm: false,
             formLoading: false,
         };
     },
     created() {
-        axios.get(this.novelPath + '/images')
-            .then(({data}) => {
-                this.images = data.data
-                this.loaded = true
-            }).catch(defaultErrorHandler)
+
     },
     methods: {
         openLoadForm() {

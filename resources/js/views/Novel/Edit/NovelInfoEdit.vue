@@ -34,7 +34,7 @@
 <script>
 export default {
     name: "NovelInfoEdit",
-    props: ["novel", "novelPath"],
+    props: ["novel", "novelPath", "images"],
     data() {
         return {
             localNovel: {
@@ -42,7 +42,6 @@ export default {
                 description: '',
                 cover: 0,
             },
-            images: [],
             loading: false,
         }
     },
@@ -58,9 +57,6 @@ export default {
     },
     created() {
         this.setupLocalNovel(this.novel)
-        axios.get(this.novelPath + '/images')
-            .then(({data}) => this.images = data.data)
-            .catch(defaultErrorHandler)
     },
     methods: {
         setupLocalNovel(value) {

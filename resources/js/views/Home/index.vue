@@ -42,7 +42,7 @@
                 <div class="box" v-if="ownNovels.length">
                     <h3 class="title is-5">Свои новеллы</h3>
                     <div class="has-text-grey-light has-text-centered">
-                        <div class="columns">
+                        <div class="columns is-multiline">
                             <div class="column is-one-quarter" v-for="ownNovel in ownNovels" :key="ownNovel.id">
                                 <novel-card :novel="ownNovel" user-is-author></novel-card>
                             </div>

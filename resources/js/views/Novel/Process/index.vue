@@ -2,12 +2,12 @@
     <div>
         <navbar hidden></navbar>
         <b-loading :active="!sceneIsLoaded" is-full-page></b-loading>
-        <template v-if="sceneIsLoaded">
+        <template>
             <background :background="scene.image.path"></background>
             <div class="scene-position">
                 <div class="scene">
                     <b-button class="scene-button left" @click="prev" :disabled="isFirstScene">Назад</b-button>
-                    <div class="text has-text-light center">А вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллы</div>
+                    <div class="text has-text-light center">{{ scene.text }}</div>
                     <b-button class="scene-button right" @click="next" :disabled="isLastScene">Дальше</b-button>
                 </div>
             </div>
@@ -130,7 +130,7 @@ export default {
     bottom: 0;
     left: 0;
     width: 100%;
-    min-height: 170px;
+    min-height: 100px;
     background-color: rgba(0, 0, 0, 0.6);
     display: flex;
     flex-direction: row;
@@ -141,7 +141,7 @@ export default {
 .scene {
     width: 100%;
     height: 100%;
-    min-height: 170px;
+    min-height: 100px;
     max-height: 300px;
     max-width: 1360px;
     display: flex;

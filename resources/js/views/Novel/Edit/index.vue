@@ -32,7 +32,7 @@
                 </div>
             </div>
         </section>
-        <router-view :novel.sync="novel" :novel-path="novelPath"></router-view>
+        <router-view :novel.sync="novel" :novel-path="novelPath" :images.sync="images"></router-view>
     </div>
 </template>
 
@@ -54,6 +54,7 @@ export default {
                 first_scene_id: 0,
                 cover: null
             },
+            images: [],
             novelLoaded: false,
         }
     },
@@ -71,10 +72,16 @@ export default {
     created() {
         axios.get(this.novelPath).then(({data}) => {
             this.novel = data.novel
-            this.novelLoaded = true
             if (!this.userIsAuthor) {
                 this.$router.replace({name: 'Home'})
+                return
             }
+            axios.get(this.novelPath + '/images')
+                .then(({data}) => {
+                    this.images = data.data
+                    this.novelLoaded = true
+                })
+                .catch(defaultErrorHandler)
         }).catch((error) => {
             if (error.response) {
                 if (error.response.status === 404) {
