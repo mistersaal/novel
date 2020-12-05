@@ -3,7 +3,7 @@
         <div class="scene-blur-background">
             <div class="scene-blur" :style="{'background-image': 'url(' + background + ')'}"></div>
         </div>
-        <div class="scene">
+        <div class="scene is-flex is-justify-content-center is-align-items-center">
             <img class="scene-background" :src="background">
         </div>
     </div>
@@ -51,7 +51,8 @@ export default {
 }
 
 .scene-background {
-    height: 100%;
+    height: auto;
+    max-height: 100%;
     position: relative;
 }
 </style>

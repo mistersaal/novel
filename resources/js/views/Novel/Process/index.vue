@@ -6,9 +6,9 @@
             <background :background="scene.image.path"></background>
             <div class="scene-position">
                 <div class="scene">
-                    <b-button class="scene-button" @click="prev" :disabled="isFirstScene">Назад</b-button>
-                    <div class="text has-text-light">{{ scene.text }}</div>
-                    <b-button class="scene-button" @click="next" :disabled="isLastScene">Дальше</b-button>
+                    <b-button class="scene-button left" @click="prev" :disabled="isFirstScene">Назад</b-button>
+                    <div class="text has-text-light center">А вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллыА вот первая сцена нашей новеллы</div>
+                    <b-button class="scene-button right" @click="next" :disabled="isLastScene">Дальше</b-button>
                 </div>
             </div>
             <action v-if="choiceRequired"
@@ -130,7 +130,7 @@ export default {
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 170px;
+    min-height: 170px;
     background-color: rgba(0, 0, 0, 0.6);
     display: flex;
     flex-direction: row;
@@ -141,6 +141,8 @@ export default {
 .scene {
     width: 100%;
     height: 100%;
+    min-height: 170px;
+    max-height: 300px;
     max-width: 1360px;
     display: flex;
     flex-direction: row;
@@ -155,6 +157,26 @@ export default {
         margin: 0 30px;
         height: 100%;
         overflow-y: auto;
+        width: 100%;
+        max-height: 200px;
+    }
+
+    @media (max-width: 768px) {
+        & {
+            flex-wrap: wrap;
+        }
+        & .left {
+            order: 2;
+        }
+        & .center {
+            order: 1;
+        }
+        & .right {
+            order: 3;
+        }
+        & .text {
+            margin: 0 0 15px 0;
+        }
     }
 }
 </style>

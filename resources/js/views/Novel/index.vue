@@ -116,4 +116,15 @@ export default {
     background-color: lightgray;
     z-index: -1;
 }
+@media (max-width: 768px) {
+    .description {
+        top: 300px;
+        padding-top: 0;
+        height: auto;
+    }
+    .cover {
+        width: 100%;
+        height: 300px;
+    }
+}
 </style>
