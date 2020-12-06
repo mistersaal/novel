@@ -17,9 +17,9 @@ class CreateNovelsTable extends Migration
             $table->id();
             $table->foreignIdFor(\App\Models\User::class, 'author_id')->constrained('users')->onDelete('cascade');
             $table->string('name')->unique();
-            $table->foreignIdFor(\App\Models\Image::class)->nullable()->constrained('images')->onDelete('cascade');
+            $table->foreignIdFor(\App\Models\Image::class)->nullable()->constrained('images')->onDelete('set null');
             $table->text('description')->nullable();
-            $table->foreignIdFor(\App\Models\Scene::class, 'first_scene_id')->nullable()->constrained('scenes')->onDelete('cascade');
+            $table->foreignIdFor(\App\Models\Scene::class, 'first_scene_id')->nullable()->constrained('scenes')->onDelete('set null');
             $table->timestamps();
         });
     }

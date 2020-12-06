@@ -17,7 +17,7 @@ class CreateChoicesTable extends Migration
             $table->id();
             $table->foreignIdFor(\App\Models\Scene::class)->constrained()->onDelete('cascade');
             $table->string('value');
-            $table->foreignIdFor(\App\Models\Scene::class, 'next_scene_id')->nullable()->constrained('scenes')->onDelete('cascade');
+            $table->foreignIdFor(\App\Models\Scene::class, 'next_scene_id')->nullable()->constrained('scenes')->onDelete('set null');
             $table->timestamps();
         });
     }
