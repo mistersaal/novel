@@ -8,17 +8,23 @@
                 <b-field label="Описание" ref="description">
                     <b-input type="textarea" v-model="localNovel.description"></b-input>
                 </b-field>
-                <b-field label="Обложка">
-                    <b-select placeholder="Выберите изображение" v-model="localNovel.image_id" expanded>
-                        <option
-                            v-for="image in images"
-                            :value="image.id"
-                            :key="image.id"
-                        >
-                            {{ image.name }}
-                        </option>
-                    </b-select>
+                <label class="label">Обложка</label>
+                <b-field class="file" :class="{'has-name': !!localNovel.image_id}" @click="choosingImage = true">
+                    <div class="file-label" @click="choosingImage = true">
+                        <span class="file-cta">
+                            <span class="file-label">{{ !!localNovel.image_id ? 'Изменить' : 'Выбрать' }} обложку</span>
+                        </span>
+                        <span class="file-name" v-if="localNovel.image_id">
+                            {{ images[localNovel.image_id] ? images[localNovel.image_id].name : '' }}
+                        </span>
+                    </div>
                 </b-field>
+                <select-image :active.sync="choosingImage"
+                              :images="images"
+                              @image="setImage($event)"
+                              :novel="novel"
+                              :novel-path="novelPath"
+                ></select-image>
                 <b-field>
                     <b-button type="is-primary"
                               :disabled="!changed"
@@ -32,9 +38,11 @@
 </template>
 
 <script>
+import SelectImage from "./SelectImage"
 export default {
     name: "NovelInfoEdit",
     props: ["novel", "novelPath", "images"],
+    components: {SelectImage},
     data() {
         return {
             localNovel: {
@@ -43,6 +51,7 @@ export default {
                 cover: 0,
             },
             loading: false,
+            choosingImage: false,
         }
     },
     watch: {
@@ -66,6 +75,9 @@ export default {
             } else {
                 this.localNovel.image_id = this.localNovel.cover.id
             }
+        },
+        setImage(image_id) {
+            this.localNovel.image_id = image_id
         },
         update() {
             if (!this.changed) {

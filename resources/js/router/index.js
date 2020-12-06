@@ -12,7 +12,7 @@ import NovelCreate from '../views/Novel/Create'
 import NovelEdit from '../views/Novel/Edit'
 import NovelInfoEdit from "../views/Novel/Edit/NovelInfoEdit";
 import ScenesEdit from "../views/Novel/Edit/ScenesEdit";
-import Images from "../views/Novel/Edit/Images";
+import ImagesEdit from "../views/Novel/Edit/ImagesEdit";
 import Musics from "../views/Novel/Edit/Musics";
 
 const groupRoutes = (prefix, routes) => {
@@ -114,7 +114,7 @@ const routes = [
                         {
                             path: '/images',
                             name: 'NovelImages',
-                            component: Images,
+                            component: ImagesEdit,
                         },
                         {
                             path: '/musics',

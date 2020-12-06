@@ -10,7 +10,7 @@
             </div>
             <div class="columns is-multiline">
                 <div class="column is-one-quarter" v-for="(image, key) in images" :key="key">
-                    <div class="box is-clickable">
+                    <div class="box is-clickable" @click="$emit('image', key)">
                         <figure class="image">
                             <img :src="image.path">
                         </figure>
@@ -89,7 +89,7 @@ export default {
                         'Content-Type': 'multipart/form-data'
                     }
                 }).then(({data}) => {
-                    this.images.push(data.image)
+                    this.images[data.image.id] = data.image
                     this.formLoading = false
                     this.loadForm = false
                 })

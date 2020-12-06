@@ -54,7 +54,7 @@ export default {
                 first_scene_id: 0,
                 cover: null
             },
-            images: [],
+            images: {},
             novelLoaded: false,
         }
     },
@@ -78,7 +78,9 @@ export default {
             }
             axios.get(this.novelPath + '/images')
                 .then(({data}) => {
-                    this.images = data.data
+                    data.data.forEach((value) => {
+                        this.$set(this.images, value.id, value)
+                    })
                     this.novelLoaded = true
                 })
                 .catch(defaultErrorHandler)
