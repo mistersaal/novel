@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EditImageRequest;
 use App\Http\Requests\LoadImageRequest;
 use App\Http\Resources\ImageResource;
 use App\Models\Image;
 use App\Models\Novel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ImageController extends Controller
 {
@@ -37,15 +39,17 @@ class ImageController extends Controller
         return new ImageResource($image);
     }
 
-    // TODO
-    public function edit(Novel $novel, Image $image)
+    public function edit(Novel $novel, Image $image, EditImageRequest $request)
     {
-        //
+        $image->name = $request->name;
+        $image->save();
+
+        return new ImageResource($image);
     }
 
-    // TODO
-    public function destroy(Novel $novel, Image $image)
+    public function delete(Novel $novel, Image $image)
     {
-        //
+        Storage::delete($image->path);
+        $image->delete();
     }
 }

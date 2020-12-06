@@ -36,7 +36,9 @@ Route::prefix('/novels/{novel}')->group(function () {
 
     // TODO: доделать файловую систему (авторизация действий)
     Route::get('/images', [ImageController::class, 'index'])->name('novel.images');
-    Route::get('/images/{image}', [ImageController::class, 'get'])->name('novel.image');
     Route::post('/images', [ImageController::class, 'create'])->name('novel.image.create');
+    Route::get('/images/{image}', [ImageController::class, 'get'])->name('novel.image');
+    Route::patch('/images/{image}', [ImageController::class, 'edit'])->name('novel.image.edit');
+    Route::delete('/images/{image}', [ImageController::class, 'delete'])->name('novel.image.delete');
 
 });
