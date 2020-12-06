@@ -49,7 +49,8 @@ class ImageController extends Controller
 
     public function delete(Novel $novel, Image $image)
     {
-        Storage::delete($image->path);
+        $path = $image->path;
+        $result = Storage::delete($image->systemPath);
         $image->delete();
     }
 }

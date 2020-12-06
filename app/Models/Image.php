@@ -13,4 +13,9 @@ class Image extends Model
     {
         return '/storage/games/' . $this->novel_id . '/images/' . $this->filename;
     }
+
+    public function getSystemPathAttribute()
+    {
+        return '/public/games/' . $this->novel_id . '/images/' . $this->filename;
+    }
 }
