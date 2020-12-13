@@ -45,4 +45,14 @@ class Novel extends Model
     {
         return $user->id === $this->author_id;
     }
+
+    public function scenes()
+    {
+        return $this->hasMany(Scene::class);
+    }
+
+    public function choices()
+    {
+        return $this->hasMany(Choice::class);
+    }
 }

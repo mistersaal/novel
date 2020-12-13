@@ -39,7 +39,7 @@ class NovelSceneController extends Controller
             $previousScene = $this->novelService->toPreviousScene($user, $novel);
             return new SceneResource($previousScene);
         } catch (\Exception $e) {
-            return abort(400, 'Невозможно произвести шаг назад');
+            abort(400, 'Невозможно произвести шаг назад');
         }
     }
 
@@ -51,7 +51,7 @@ class NovelSceneController extends Controller
             $nextScene = $this->novelService->toNextScene($user, $novel, $choice);
             return new SceneResource($nextScene);
         } catch (\Exception $e) {
-            return abort(400, 'Невозможно произвести шаг вперёд');
+            abort(400, 'Невозможно произвести шаг вперёд');
         }
     }
 }

@@ -1,12 +1,24 @@
 <template>
     <section class="section">
         <div class="container">
-            <p>
-                Изучаю <a href="https://balkangraph.com/OrgChartJS/Docs/GettingStarted" target="_blank">библиотеку</a>,
-                на основе которой можно построить древовидный конструктор
-                (ниже пример дерева, взятый из доки, можно полностью под себя переделать)
-            </p>
-            <div id="tree" ref="tree"></div>
+            <div id="tree" ref="tree" class="box tree"></div>
+            <b-modal :active="editScene" :can-cancel="['escape', 'outside']" @close="editScene = false">
+                <div class="modal-card" style="width: auto">
+                    <header class="modal-card-head">
+                        <p class="modal-card-title">Сцена</p>
+                        <button
+                            type="button"
+                            class="delete"
+                            @click="editScene = false"/>
+                    </header>
+                    <section class="modal-card-body">
+                        Тут будет форма редактирования сцены и создания следующих
+                    </section>
+                    <footer class="modal-card-foot">
+                        <button class="button" type="button" @click="editScene = false">Отмена</button>
+                    </footer>
+                </div>
+            </b-modal>
         </div>
     </section>
 </template>
@@ -16,52 +28,93 @@ import OrgChart from '@balkangraph/orgchart.js'
 
 export default {
     name: "ScenesEdit",
+    props: ["novel", "novelPath"],
     data() {
         return {
-            nodes: [
-                {id: 1, name: "Denny Curtis", title: "CEO", img: "https://cdn.balkan.app/shared/2.jpg"},
-                {
-                    id: 2,
-                    pid: 1,
-                    name: "Ashley Barnett",
-                    title: "Sales Manager",
-                    img: "https://cdn.balkan.app/shared/3.jpg"
-                },
-                {
-                    id: 3,
-                    pid: 1,
-                    name: "Caden Ellison",
-                    title: "Dev Manager",
-                    img: "https://cdn.balkan.app/shared/4.jpg"
-                },
-                {id: 4, pid: 2, name: "Elliot Patel", title: "Sales", img: "https://cdn.balkan.app/shared/5.jpg"},
-                {id: 5, pid: 2, name: "Lynn Hussain", title: "Sales", img: "https://cdn.balkan.app/shared/6.jpg"},
-                {id: 6, pid: 3, name: "Tanner May", title: "Developer", img: "https://cdn.balkan.app/shared/7.jpg"},
-                {id: 7, pid: 3, name: "Fran Parsons", title: "Developer", img: "https://cdn.balkan.app/shared/8.jpg"}
-            ]
+            scenes: {},
+            nodes: [],
+            chart: {},
+            editScene: false,
+            editedScene: {
+                id: 0,
+                pid: 0,
+                img: "",
+                choice: "",
+                question: "",
+            },
         }
     },
     methods: {
-        oc: function (domEl, x) {
-
+        oc(domEl, x) {
+            const editForm = () => {};
+            editForm.prototype.init = (obj) => {}
+            editForm.prototype.show = (nodeId) => {
+                this.editedScene = this.scenes[nodeId]
+                this.editScene = true
+            }
+            editForm.prototype.hide = (showldUpdateTheNode) => {
+                this.editScene = false
+            }
             this.chart = new OrgChart(domEl, {
+                template: "novelScenes",
                 nodes: x,
                 nodeBinding: {
                     field_0: "name",
-                    field_1: "title",
+                    field_1: "question",
                     img_0: "img"
-                }
+                },
+                linkBinding: {
+                    link_field_0: "choice"
+                },
+                editUI: new editForm(),
             });
-
-        }
+        },
+        setTemplates() {
+            OrgChart.templates.ana.link
+            OrgChart.templates.novelScenes = Object.assign({}, OrgChart.templates.ana)
+            OrgChart.templates.novelScenes.defs += '<filter id="dropshadow" height="130%">\n' +
+                                                    '  <feGaussianBlur in="SourceAlpha" stdDeviation="10"/> <!-- stdDeviation is how much to blur -->\n' +
+                                                    '  <feOffset dx="0" dy="7" result="offsetblur"/> <!-- how much to offset -->\n' +
+                                                    '  <feComponentTransfer>\n' +
+                                                    '    <feFuncA type="linear" slope="0.07"/> <!-- slope is the opacity of the shadow -->\n' +
+                                                    '  </feComponentTransfer>\n' +
+                                                    '  <feMerge> \n' +
+                                                    '    <feMergeNode/> <!-- this contains the offset blurred image -->\n' +
+                                                    '    <feMergeNode in="SourceGraphic"/> <!-- this contains the element that the filter is applied to -->\n' +
+                                                    '  </feMerge>\n' +
+                                                    '</filter>\n';
+            OrgChart.templates.novelScenes.size = [300, 200];
+            OrgChart.templates.novelScenes.node = '<rect fill="#0081e0" rx="12" ry="12" width="300" height="200" style="filter:url(#dropshadow)"></rect>';
+            OrgChart.templates.novelScenes.field_0 = '<text style="font-size: 24px;" fill="#ffffff" x="150" y="140" text-anchor="middle">{val}</text>';
+            OrgChart.templates.novelScenes.field_1 = '<text style="font-size: 16px;" fill="#ffffff" x="150" y="170" text-anchor="middle">{val}</text>';
+            OrgChart.templates.novelScenes.img_0 = '<clipPath id="ulaImg"><rect fill="#0081e0" rx="12" ry="12" width="300" height="200"></rect></clipPath>' +
+                                                    '<image preserveAspectRatio="xMidYMid slice" clip-path="url(#ulaImg)" xlink:href="{val}" x="0" y="0"  width="300" height="100"></image>';
+            OrgChart.templates.novelScenes.link_field_0 = '<text text-anchor="middle" fill="#000000" width="290" x="0" y="0">{val}</text>';
+        },
     },
 
     mounted() {
-        this.oc(this.$refs.tree, this.nodes)
+        this.setTemplates()
+        axios.get(this.novelPath + '/edit/scenes')
+            .then(({data}) => {
+                this.scenes = data
+                this.nodes = Object.values(this.scenes)
+                this.oc(this.$refs.tree, this.nodes)
+            })
+            .catch(defaultErrorHandler)
     }
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+
+.tree {
+    height: 900px;
+    width: auto;
+}
+
+.svg-box {
+
+}
 
 </style>

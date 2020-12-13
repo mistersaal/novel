@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EditScenesController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\NovelSceneController;
 use App\Http\Controllers\NovelController;
@@ -41,4 +42,5 @@ Route::prefix('/novels/{novel}')->group(function () {
     Route::patch('/images/{image}', [ImageController::class, 'edit'])->name('novel.image.edit');
     Route::delete('/images/{image}', [ImageController::class, 'delete'])->name('novel.image.delete');
 
+    Route::get('/edit/scenes', [EditScenesController::class, 'index'])->name('novel.edit.scenes');
 });
