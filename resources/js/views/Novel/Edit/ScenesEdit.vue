@@ -159,7 +159,7 @@ export default {
             editForm.prototype.init = (obj) => {}
             editForm.prototype.show = (nodeId) => {
                 this.editedNodeId = this.nodes.indexOf(this.scenes[nodeId])
-                this.editedScene = this.scenes[nodeId]
+                this.editedScene = _.clone(this.scenes[nodeId])
                 if (nodeId === 0) {
                     this.creatingScene = true
                 } else {
