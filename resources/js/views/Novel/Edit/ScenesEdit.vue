@@ -1,6 +1,6 @@
 <template>
     <section class="section">
-        <div class="container" v-if="dataLoaded">
+        <div class="container">
             <b-button type="is-text" @click="toFullScreen">Развернуть на весь экран</b-button>
             <div id="fullscreen">
                 <div id="tree" ref="tree" class="box tree"></div>
@@ -151,7 +151,6 @@ export default {
             deletingLoad: false,
             saveLoad: false,
             mounted: true,
-            dataLoaded: false,
         }
     },
     methods: {
@@ -314,7 +313,6 @@ export default {
                     }
                     this.scenes = data
                     this.nodes = Object.values(this.scenes)
-                    this.dataLoaded = true
                     if (this.mounted) {
                         this.oc(this.$refs.tree, this.nodes)
                         if (nodeIdCenter) {
@@ -325,7 +323,11 @@ export default {
                 })
         },
         isAbleCreateNewScene(nodeId) {
-            return this.scenes[nodeId].question || !_.some(this.nodes, (node) => {
+            let hasQuestion = false
+            if (this.scenes[nodeId]) {
+                hasQuestion = !!this.scenes[nodeId].question
+            }
+            return hasQuestion || !_.some(this.nodes, (node) => {
                 return node.pid === nodeId
             })
         }
