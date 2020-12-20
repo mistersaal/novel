@@ -9,6 +9,12 @@ class Choice extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'scene_id',
+        'next_scene_id',
+        'value',
+    ];
+
     public function scene()
     {
         return $this->belongsTo(Scene::class);

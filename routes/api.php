@@ -43,4 +43,7 @@ Route::prefix('/novels/{novel}')->group(function () {
     Route::delete('/images/{image}', [ImageController::class, 'delete'])->name('novel.image.delete');
 
     Route::get('/edit/scenes', [EditScenesController::class, 'index'])->name('novel.edit.scenes');
+    Route::post('/edit/scenes', [EditScenesController::class, 'create'])->name('novel.edit.scenes.create');
+    Route::patch('/edit/scenes/{scene}', [EditScenesController::class, 'edit'])->name('novel.edit.scenes.edit');
+    Route::delete('/edit/scenes/{scene}', [EditScenesController::class, 'delete'])->name('novel.edit.scenes.delete');
 });

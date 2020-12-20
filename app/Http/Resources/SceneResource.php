@@ -16,6 +16,7 @@ class SceneResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'name' => $this->name,
             'text' => $this->text,
             'image' => new ImageResource($this->image),
             'music' => new MusicResource($this->music),

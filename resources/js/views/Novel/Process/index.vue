@@ -3,12 +3,12 @@
         <navbar hidden></navbar>
         <b-loading :active="!sceneIsLoaded" is-full-page></b-loading>
         <template>
-            <background :background="scene.image.path"></background>
+            <background :background="scene.image ? scene.image.path : ''"></background>
             <div class="scene-position">
                 <div class="scene">
                     <b-button class="scene-button left" @click="prev" :disabled="isFirstScene">Назад</b-button>
                     <div class="text has-text-light center">{{ scene.text }}</div>
-                    <b-button class="scene-button right" @click="next" :disabled="isLastScene">Дальше</b-button>
+                    <b-button class="scene-button right" @click="next">Дальше</b-button>
                 </div>
             </div>
             <action v-if="choiceRequired"
@@ -84,8 +84,15 @@ export default {
         next() {
             if (this.scene.choices.length) {
                 this.choiceRequired = true
-            } else {
+            } else if (!this.isLastScene) {
                 this.sendChoiceAndLoadScene()
+            } else {
+                this.$buefy.dialog.alert({
+                    confirmText: 'Ок',
+                    message: 'Поздравляем, вы прошли новеллу!',
+                    type: "is-success",
+                    onConfirm: () => {this.$router.push({name: 'Novel', params: {id: this.novel.id}})}
+                })
             }
         },
         sendChoiceAndLoadScene(choice = null) {

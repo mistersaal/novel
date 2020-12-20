@@ -4,6 +4,10 @@
 namespace App\Services;
 
 
+use App\Exceptions\ChoiceValueMissed;
+use App\Exceptions\ParentSceneMissed;
+use App\Exceptions\SceneCannotBeDeleted;
+use App\Models\Choice;
 use App\Models\Image;
 use App\Models\Novel;
 use App\Models\Scene;
@@ -22,6 +26,64 @@ class EditScenesService
         return $this->addSceneToTree([], $scenes, $choices, $novel->first_scene_id);
     }
 
+    public function createScene(Novel $novel, array $data): Scene
+    {
+        /** @var Scene $scene */
+        $scene = $novel->scenes()->create($data);
+
+        if ($novel->first_scene_id !== null) {
+            if (!isset($data['parent_scene_id'])) {
+                throw new ParentSceneMissed();
+            }
+            $parent_scene = Scene::find($data['parent_scene_id']);
+            if ($parent_scene->question) {
+                if (!isset($data['choice_value'])) {
+                    throw new ChoiceValueMissed();
+                }
+                $novel->choices()->create([
+                    'scene_id' => $parent_scene->id,
+                    'next_scene_id' => $scene->id,
+                    'value' => $data['choice_value'],
+                ]);
+            } else {
+                $parent_scene->nextScene()->associate($scene)->save();
+            }
+        } else {
+            $novel->firstScene()->associate($scene)->save();
+        }
+
+        return $scene;
+    }
+
+    public function editScene(Scene $scene, array $data): Scene
+    {
+        $scene->update($data);
+        Choice::whereNextSceneId($scene->id)->update([
+            'value' => $data['choice_value'] ?? '',
+        ]);
+        return $scene;
+    }
+
+    public function deleteScene(Novel $novel, Scene $scene): void
+    {
+        if ($scene->choices()->exists()) {
+            throw new SceneCannotBeDeleted();
+        }
+        if ($scene->id === $novel->first_scene_id) {
+            $novel->first_scene_id = $scene->next_scene_id;
+            $novel->save();
+            return;
+        }
+        if ($scene->next_scene_id) {
+            $choices = Choice::whereNextSceneId($scene->id);
+            $choices->update(['next_scene_id' => $scene->next_scene_id]);
+        } else {
+            Choice::whereNextSceneId($scene->id)->delete();
+        }
+        $scenes = Scene::whereNextSceneId($scene->id);
+        $scenes->update(['next_scene_id' => $scene->next_scene_id]);
+    }
+
     private function addSceneToTree(array $nodes, $scenes, $choices, $sceneId, $parentId = null, $choiceValue = null): array
     {
         $scene = $scenes->find($sceneId);
@@ -29,9 +91,11 @@ class EditScenesService
             'id' => $scene->id,
             'pid' => $parentId,
             'name' => $scene->name,
-            'img' => $scene->image->path,
+            'img' => $scene->image ? $scene->image->path : null,
             'question' => $scene->question,
             'choice' => $choiceValue,
+            'text' => $scene->text,
+            'image_id' => $scene->image_id,
         ];
         if ($scene->next_scene_id) {
             return $this->addSceneToTree($nodes, $scenes, $choices, $scene->next_scene_id, $scene->id);

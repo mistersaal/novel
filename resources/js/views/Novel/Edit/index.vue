@@ -24,9 +24,9 @@
                             <router-link tag="li" active-class="is-active" exact :to="{name: 'NovelImages', params: {id: id}}">
                                 <a>Изображения</a>
                             </router-link>
-                            <router-link tag="li" active-class="is-active" exact :to="{name: 'NovelMusics', params: {id: id}}">
-                                <a>Музыка</a>
-                            </router-link>
+<!--                            <router-link tag="li" active-class="is-active" exact :to="{name: 'NovelMusics', params: {id: id}}">-->
+<!--                                <a>Музыка</a>-->
+<!--                            </router-link>-->
                         </ul>
                     </div>
                 </div>

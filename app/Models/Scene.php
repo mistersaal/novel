@@ -9,6 +9,14 @@ class Scene extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'image_id',
+        'text',
+        'music_id',
+        'question',
+    ];
+
     public function image()
     {
         return $this->belongsTo(Image::class);
