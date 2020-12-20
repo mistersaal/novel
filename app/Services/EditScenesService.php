@@ -4,6 +4,7 @@
 namespace App\Services;
 
 
+use App\Exceptions\CannotCreateScene;
 use App\Exceptions\ChoiceValueMissed;
 use App\Exceptions\ParentSceneMissed;
 use App\Exceptions\SceneCannotBeDeleted;
@@ -45,8 +46,10 @@ class EditScenesService
                     'next_scene_id' => $scene->id,
                     'value' => $data['choice_value'],
                 ]);
-            } else {
+            } elseif (!$parent_scene->next_scene_id) {
                 $parent_scene->nextScene()->associate($scene)->save();
+            } else {
+                throw new CannotCreateScene();
             }
         } else {
             $novel->firstScene()->associate($scene)->save();
