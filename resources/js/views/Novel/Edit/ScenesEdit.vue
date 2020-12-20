@@ -45,7 +45,7 @@
                                           :novel-path="novelPath"
                             >
                             </select-image>
-                            <b-field v-if="isLastInNode(editedScene.id)">
+                            <b-field v-if="isAbleCreateNewScene(editedScene.id)">
                                 <b-button @click="openNewSceneForm" type="is-primary">
                                     Создать следующую сцену
                                 </b-button>
@@ -322,8 +322,8 @@ export default {
                     }
                 })
         },
-        isLastInNode(nodeId) {
-            return !_.some(this.nodes, (node) => {
+        isAbleCreateNewScene(nodeId) {
+            return this.scenes[nodeId].question || !_.some(this.nodes, (node) => {
                 return node.pid === nodeId
             })
         }
