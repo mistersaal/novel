@@ -22,6 +22,7 @@ class SceneResource extends JsonResource
             'music' => new MusicResource($this->music),
             'choices' => ChoiceResource::collection($this->choicesWithNextScene),
             'last_scene' => $this->isLastScene(),
+            'question' => $this->question,
         ];
     }
 

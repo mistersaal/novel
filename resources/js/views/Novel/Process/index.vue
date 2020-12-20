@@ -13,6 +13,7 @@
             </div>
             <action v-if="choiceRequired"
                     :choices="scene.choices"
+                    :question="scene.question"
                     @close="choiceRequired = false"
                     @chose="sendChoiceAndLoadScene"
             ></action>
@@ -53,7 +54,8 @@ export default {
                 },
                 music: null,
                 choices: [],
-                last_scene: false
+                last_scene: false,
+                question: '',
             },
         }
     },

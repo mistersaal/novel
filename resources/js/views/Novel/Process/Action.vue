@@ -2,7 +2,7 @@
     <b-modal :active="true" has-modal-card>
         <div class="modal-card" style="width: 400px">
             <header class="modal-card-head">
-                <p class="modal-card-title">Выберите...</p>
+                <p class="modal-card-title">{{ question }}</p>
                 <button
                     type="button"
                     class="delete"
@@ -38,6 +38,10 @@ export default {
             type: Array,
             default: [],
         },
+        question: {
+            type: String,
+            default: '',
+        }
     },
 }
 </script>
