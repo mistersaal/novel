@@ -31,7 +31,7 @@
                             <b-field label="Текст">
                                 <b-input type="textarea" v-model="editedScene.text"></b-input>
                             </b-field>
-                            <b-field label="Вопрос после сцены" :addons="false" v-if="editedScene.question">
+                            <b-field label="Вопрос после сцены" :addons="false" v-if="editedScene.hasQuestion">
                                 <b-input v-model="editedScene.question"></b-input>
                                 <p class="help">Можно оставить пустым, если после сцены нет выбора</p>
                             </b-field>
@@ -133,6 +133,7 @@ export default {
                 question: "",
                 text: "",
                 image_id: null,
+                hasQuestion: false,
             },
             editedNodeId: 0,
             creatingScene: false,
@@ -160,6 +161,7 @@ export default {
             editForm.prototype.show = (nodeId) => {
                 this.editedNodeId = this.nodes.indexOf(this.scenes[nodeId])
                 this.editedScene = _.clone(this.scenes[nodeId])
+                this.editedScene.hasQuestion = this.editedScene.question !== '' && this.editedScene.question !== null
                 if (nodeId === 0) {
                     this.creatingScene = true
                 } else {
@@ -267,7 +269,15 @@ export default {
                 })
         },
         openNewSceneForm() {
-            this.newScene.parent_scene_id = this.editedScene.id
+            this.newScene = {
+                name: '',
+                image_id: null,
+                text: '',
+                music_id: null,
+                question: null,
+                parent_scene_id: this.editedScene.id,
+                choice_value: null,
+            }
             this.creatingScene = true
         },
         toFullScreen() {
