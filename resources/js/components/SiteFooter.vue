@@ -2,7 +2,7 @@
     <footer class="footer">
         <div class="content has-text-centered">
             <p>
-                Сделано с ❤ командой Y2433
+                Made with ❤ by <a href="https://github.com/mistersaal">mistersaal</a>
             </p>
         </div>
     </footer>

@@ -5,39 +5,24 @@
             <div class="hero-body">
                 <div class="container">
                     <h1 class="title">
-                        LOS COPS PLAYABLE TEASER
+                        Конструктор визуальных новелл
                     </h1>
                     <h2 class="subtitle">
-                        Сыграй в наш тизер визуальной новеллы LOS COPS и попробуй создать новеллу со свой историей!
+                        Создай свою собственную новеллу или сыграй в уже созданные!
                     </h2>
                 </div>
             </div>
         </section>
         <section class="section">
             <div class="container">
-                <div class="columns">
-                    <div class="column">
-                        <div class="box">
-                            <h3 class="title is-5">Los Cops</h3>
-                            <b-button size="is-medium"
-                                      expanded
-                                      type="is-danger"
-                                      tag="router-link"
-                                      :to="{name: 'Novel', params: {id: 1}}"
-                            >Играть</b-button>
-                        </div>
-                    </div>
-                    <div class="column">
-                        <div class="box">
-                            <h3 class="title is-5">Создать свою новеллу</h3>
-                            <b-button size="is-medium"
-                                      expanded
-                                      type="is-primary"
-                                      tag="router-link"
-                                      :to="$store.state.user ? {name: 'NovelCreate'} : {name: 'Login'}"
-                            >Создать</b-button>
-                        </div>
-                    </div>
+                <div class="box">
+                    <h3 class="title is-5">Создать свою новеллу</h3>
+                    <b-button size="is-medium"
+                              expanded
+                              type="is-primary"
+                              tag="router-link"
+                              :to="$store.state.user ? {name: 'NovelCreate'} : {name: 'Login'}"
+                    >Создать</b-button>
                 </div>
                 <div class="box" v-if="ownNovels.length">
                     <h3 class="title is-5">Свои новеллы</h3>

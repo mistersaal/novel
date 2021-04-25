@@ -2,7 +2,7 @@
     <b-navbar :class="{'hidden': hidden}">
         <template slot="brand">
             <b-navbar-item tag="router-link" :to="{name: 'Home'}" class="is-monoton is-size-3 has-text-danger">
-                Los Cops
+                MyNovel.ml
             </b-navbar-item>
         </template>
         <template slot="start">
