@@ -16,7 +16,7 @@
         <section class="section">
             <div class="container">
                 <div class="box">
-                    <h3 class="title is-5">Воплоти сюжет их своей головы в реальность</h3>
+                    <h3 class="title is-5">Воплоти сюжет из своей головы в реальность</h3>
                     <b-button size="is-medium"
                               expanded
                               type="is-primary"
