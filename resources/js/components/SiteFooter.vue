@@ -2,7 +2,7 @@
     <footer class="footer">
         <div class="content has-text-centered">
             <p>
-                Made with ❤ by <a href="https://github.com/mistersaal">mistersaal</a>
+                Made with ❤ by <a href="https://github.com/mistersaal" target="_blunk">mistersaal</a>
             </p>
         </div>
     </footer>

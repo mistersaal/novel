@@ -16,13 +16,13 @@
         <section class="section">
             <div class="container">
                 <div class="box">
-                    <h3 class="title is-5">Создать свою новеллу</h3>
+                    <h3 class="title is-5">Воплоти сюжет их своей головы в реальность</h3>
                     <b-button size="is-medium"
                               expanded
                               type="is-primary"
                               tag="router-link"
                               :to="$store.state.user ? {name: 'NovelCreate'} : {name: 'Login'}"
-                    >Создать</b-button>
+                    >Создать новеллу</b-button>
                 </div>
                 <div class="box" v-if="ownNovels.length">
                     <h3 class="title is-5">Свои новеллы</h3>
