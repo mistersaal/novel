@@ -12,7 +12,7 @@ class NovelPolicy
 
     public function get(User $user, Novel $novel)
     {
-        return !$novel->is_banned || $user->is_admin || $novel->author_id === $user->id;
+        return !$novel->is_banned || $user !== null && ($user->is_admin || $novel->author_id === $user->id);
     }
 
     /**
