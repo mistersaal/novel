@@ -10,6 +10,11 @@ class NovelPolicy
 {
     use HandlesAuthorization;
 
+    public function get(User $user, Novel $novel)
+    {
+        return !$novel->is_banned || $user->is_admin || $novel->author_id === $user->id;
+    }
+
     /**
      * Determine whether the user can create models.
      *

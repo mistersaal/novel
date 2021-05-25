@@ -47,3 +47,11 @@ Route::prefix('/novels/{novel}')->group(function () {
     Route::patch('/edit/scenes/{scene}', [EditScenesController::class, 'edit'])->name('novel.edit.scenes.edit');
     Route::delete('/edit/scenes/{scene}', [EditScenesController::class, 'delete'])->name('novel.edit.scenes.delete');
 });
+
+Route::prefix('/admin')->group(function () {
+
+    Route::post('/block/user/{user}', [\App\Http\Controllers\AdminController::class, 'blockUser']);
+    Route::post('/unblock/user/{user}', [\App\Http\Controllers\AdminController::class, 'unblockUser']);
+    Route::post('/block/novel/{novel}', [\App\Http\Controllers\AdminController::class, 'blockNovel']);
+    Route::post('/unblock/novel/{novel}', [\App\Http\Controllers\AdminController::class, 'unblockNovel']);
+});

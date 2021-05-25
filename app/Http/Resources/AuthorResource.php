@@ -17,6 +17,7 @@ class AuthorResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'is_banned' => $this->is_banned,
         ];
     }
 }

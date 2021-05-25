@@ -19,12 +19,23 @@ class NovelController extends Controller
 
     public function index(Novel $novel)
     {
+        $this->authorize('get', $novel);
+
         return new NovelResource($novel->load('author'));
     }
 
     public function all()
     {
-        return NovelResource::collection(Novel::with('author')->get());
+        if (Auth::user()->is_admin) {
+            $novels = Novel::with('author')->get();
+        } else {
+            $novels = Novel::with('author')->where('is_banned', '=', false)->get();
+            $novels->reject(function ($novel) {
+                return $novel->author->is_banned;
+            });
+        }
+
+        return NovelResource::collection($novels);
     }
 
     public function create(CreateNovelRequest $request)

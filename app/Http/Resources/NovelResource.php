@@ -21,6 +21,7 @@ class NovelResource extends JsonResource
             'description' => $this->description,
             'first_scene_id' => $this->first_scene_id,
             'cover' => new ImageResource($this->cover),
+            'is_banned' => $this->is_banned,
         ];
     }
 

@@ -11,8 +11,18 @@
             <div class="card-content fixed-height is-flex is-align-items-center is-justify-content-center">
                 <div class="media">
                     <div class="media-content">
-                        <p class="title" :class="headerSize">{{ novel.name }}</p>
-                        <p class="subtitle is-6">@{{ author }}</p>
+                        <p class="title" :class="headerSize">
+                            {{ novel.name }}
+                            <template v-if="novel.is_banned">
+                                <br>❌
+                            </template>
+                        </p>
+                        <p class="subtitle is-6">
+                            @{{ author }}
+                            <template v-if="isAuthorBanned">
+                                <br>❌
+                            </template>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -36,6 +46,9 @@ export default {
     computed: {
         author() {
             return this.userIsAuthor ? this.$store.state.user.name : this.novel.author.name
+        },
+        isAuthorBanned() {
+            return this.userIsAuthor ? false : this.novel.author.is_banned
         },
         linkTo() {
             return {name: 'Novel', params: {id: this.novel.id}}

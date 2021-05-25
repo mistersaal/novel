@@ -27,4 +27,5 @@ window.defaultErrorHandler = (error) => {
         duration: 10000,
         type: 'is-danger'
     })
+    app.$router.push('/login')
 }
