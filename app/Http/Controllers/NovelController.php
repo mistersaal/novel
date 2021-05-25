@@ -26,7 +26,7 @@ class NovelController extends Controller
 
     public function all()
     {
-        if (Auth::user()->is_admin) {
+        if (!Auth::guest() && Auth::user()->is_admin) {
             $novels = Novel::with('author')->get();
         } else {
             $novels = Novel::with('author')->where('is_banned', '=', false)->get();
