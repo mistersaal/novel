@@ -6,19 +6,19 @@
             <div class="description">
                 <section class="section">
                     <div class="container pl-5 pr-5">
-                        <h1 class="title is-2 is-spaced">
+                        <h1 class="title is-2 is-spaced mb-0">
                             {{ novel.name }}
                             <template v-if="novel.is_banned">
                                 <br>❌
                             </template>
                         </h1>
-                        <p class="subtitle">{{ novel.description }}</p>
-                        <p class="subtitle has-text-grey">
+                        <p class="has-text-grey mb-4">
                             @{{ novel.author.name }}
                             <template v-if="novel.author.is_banned">
                                 <br>❌
                             </template>
                         </p>
+                        <p class="subtitle">{{ novel.description }}</p>
                         <b-field v-if="novel.first_scene_id">
                             <b-button size="is-medium"
                                       type="is-primary"
@@ -68,6 +68,8 @@
                                 >Разблокировать пользователя</b-button>
                             </b-field>
                         </template>
+                        <p class="has-text-grey">Прошли новеллу: {{ novel.finished_count }}</p>
+                        <p class="has-text-grey">В процессе: {{ novel.in_process_count }}</p>
                     </div>
                 </section>
             </div>

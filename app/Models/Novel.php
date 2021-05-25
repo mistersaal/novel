@@ -55,4 +55,22 @@ class Novel extends Model
     {
         return $this->hasMany(Choice::class);
     }
+
+    public function finishedCount()
+    {
+        $lastSceneIdList = $this->scenes->filter(function (Scene $scene) {
+            return $scene->isLastScene();
+        })->pluck('id');
+
+        return $this->saves()->whereIn('scene_id', $lastSceneIdList)->count();
+    }
+
+    public function inProcessCount()
+    {
+        $lastSceneIdList = $this->scenes->filter(function (Scene $scene) {
+            return $scene->isLastScene();
+        })->pluck('id');
+
+        return $this->saves()->whereNotIn('scene_id', $lastSceneIdList)->count();
+    }
 }
