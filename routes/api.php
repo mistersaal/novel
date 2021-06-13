@@ -18,7 +18,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/user', UserController::class)->name('user');
+Route::get('/user', [UserController::class, 'get'])->name('user');
+Route::patch('/user', [UserController::class, 'patch'])->name('user.edit');
 
 Route::get('/novels', [NovelController::class, 'all'])->name('novel.all');
 Route::post('/novels', [NovelController::class, 'create'])->name('novel.create');
@@ -35,7 +36,6 @@ Route::prefix('/novels/{novel}')->group(function () {
     Route::post('/scene/next', [NovelSceneController::class, 'toNextScene'])
         ->name('novel.scene.next');
 
-    // TODO: доделать файловую систему (авторизация действий)
     Route::get('/images', [ImageController::class, 'index'])->name('novel.images');
     Route::post('/images', [ImageController::class, 'create'])->name('novel.image.create');
     Route::get('/images/{image}', [ImageController::class, 'get'])->name('novel.image');

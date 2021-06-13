@@ -22,9 +22,14 @@
                             Войти
                         </router-link>
                     </template>
-                    <b-button @click="logout" :loading="loggingOut" v-else>
-                        Выйти
-                    </b-button>
+                    <template v-else>
+                        <b-button @click="editProfile">
+                            Редактировать профиль
+                        </b-button>
+                        <b-button @click="logout" :loading="loggingOut">
+                            Выйти
+                        </b-button>
+                    </template>
                 </div>
             </b-navbar-item>
         </template>
@@ -54,6 +59,28 @@ export default {
                 this.$router.push({name: 'Login'})
             })
         },
+        editProfile() {
+            this.$buefy.dialog.prompt({
+                message: 'Изменить имя профиля',
+                inputAttrs: {
+                    type: 'text',
+                    placeholder: 'Имя профиля',
+                    value: this.$store.state.user.name,
+                },
+                confirmText: 'Сохранить',
+                cancelText: 'Отмена',
+                closeOnConfirm: false,
+                trapFocus: true,
+                onConfirm: (value) => {
+                    this.$buefy.toast.open(`Профиль сохраняется...`)
+                    axios.patch('/api/user/', {
+                        name: value,
+                    }).then(() => {
+                        this.$router.go()
+                    })
+                }
+            })
+        }
     },
 }
 </script>
