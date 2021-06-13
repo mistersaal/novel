@@ -124,25 +124,25 @@ export default {
     methods: {
         blockUser() {
             this.novelLoaded = false
-            axios.post('/api/admin/block/user/' + this.novel.id).then(() => {
+            axios.post('/api/admin/block/user/' + this.novel.author.id).then(() => {
                 this.loadPageData()
             })
         },
         unblockUser() {
             this.novelLoaded = false
-            axios.post('/api/admin/unblock/user/' + this.novel.id).then(() => {
+            axios.post('/api/admin/unblock/user/' + this.novel.author.id).then(() => {
                 this.loadPageData()
             })
         },
         blockNovel() {
             this.novelLoaded = false
-            axios.post('/api/admin/block/novel/' + this.novel.author.id).then(() => {
+            axios.post('/api/admin/block/novel/' + this.novel.id).then(() => {
                 this.loadPageData()
             })
         },
         unblockNovel() {
             this.novelLoaded = false
-            axios.post('/api/admin/unblock/novel/' + this.novel.author.id).then(() => {
+            axios.post('/api/admin/unblock/novel/' + this.novel.id).then(() => {
                 this.loadPageData()
             })
         },
