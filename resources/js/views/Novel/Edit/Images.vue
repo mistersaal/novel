@@ -26,7 +26,7 @@
                     <form @submit.prevent="loadNew">
                         <div class="modal-card-body">
                             <b-field class="file is-primary" :class="{'has-name': !!image.file}">
-                                <b-upload v-model="image.file" class="file-label" expanded>
+                                <b-upload v-model="image.file" @input="imageUploaded" class="file-label" expanded>
                                 <span class="file-cta">
                                     <span class="file-label">Выбрать файл</span>
                                 </span>
@@ -74,6 +74,11 @@ export default {
 
     },
     methods: {
+        imageUploaded() {
+            if (this.image.file) {
+                this.image.name = this.image.file.name.split('.').slice(0, -1).join('.')
+            }
+        },
         openLoadForm() {
             this.loadForm = true
         },
